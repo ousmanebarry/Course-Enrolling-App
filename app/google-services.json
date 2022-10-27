@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "791888663069",
+    "project_id": "seg2105-group30-project",
+    "storage_bucket": "seg2105-group30-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791888663069:android:a726d9d0d739dca56c2cf4",
+        "android_client_info": {
+          "package_name": "com.example.coursebookingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791888663069-bvpaidspaunbie5b6so8p95iibclttdd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqjUiWA65qrGs-URKNRetpf7CPpTDEybU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791888663069-bvpaidspaunbie5b6so8p95iibclttdd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

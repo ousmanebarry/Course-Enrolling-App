@@ -1,4 +1,4 @@
-package com.example.coursebooking;
+package com.example.coursebookingapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 

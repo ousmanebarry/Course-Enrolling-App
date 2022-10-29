@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.coursebooking'
+    namespace 'com.example.coursebookingapp'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.coursebooking"
+        applicationId "com.example.coursebookingapp"
         minSdk 21
         targetSdk 32
         versionCode 1

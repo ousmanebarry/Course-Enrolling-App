@@ -1,7 +1,7 @@
 package com.example.coursebookingapp.classes;
 
 public abstract class Account {
-    private String username;
+    protected String username;
 
     public String getUsername(){
         return username;

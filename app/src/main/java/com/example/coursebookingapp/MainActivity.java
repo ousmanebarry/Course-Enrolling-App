@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     TextView userInfo;
@@ -19,10 +20,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         signOut = findViewById(R.id.logout);
-        Bundle extras = getIntent().getExtras();
-        String uuid = extras.getString("uuid");
         userInfo = findViewById(R.id.user_info);
+
+        String uuid = user.getUid();
         userInfo.setText(String.format("user id : %s", uuid));
 
 

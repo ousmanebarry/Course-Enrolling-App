@@ -74,8 +74,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser currentUser) {
         FirebaseUser user = currentUser;
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.putExtra("uuid", user.getUid());
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();
     }

@@ -1,4 +1,14 @@
 package com.example.coursebookingapp.classes;
 
-public class Instructor extends Account{
+import java.util.ArrayList;
+
+public class Instructor extends User {
+    private ArrayList<String> courses;
+
+    public Instructor() {
+        super();
+    }
+
+
+
 }

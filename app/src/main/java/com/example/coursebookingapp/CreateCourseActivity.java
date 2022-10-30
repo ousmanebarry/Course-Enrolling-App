@@ -26,7 +26,7 @@ public class CreateCourseActivity extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
 
         Button createBtn = findViewById(R.id.courseCreateSubmitBtn);
-
+        Button backBtn = findViewById(R.id.createCourseBackBtn);
         courseNameField = findViewById(R.id.createCourseNameField);
         courseCodeField = findViewById(R.id.createCourseCodeField);
 
@@ -36,6 +36,13 @@ public class CreateCourseActivity extends AppCompatActivity {
                 if(courseCodeField.getText().toString().isEmpty() || courseNameField.getText().toString().isEmpty()) return;
                 Course newCourse = new Course(courseNameField.getText().toString(),courseCodeField.getText().toString());
                 addCourse(newCourse);
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditActivity">
+    tools:context=".EditCourseActivity">
 
     <TextView
         android:id="@+id/editActivityTitle"
@@ -55,11 +55,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="17dp"
         android:text="Edit Name:"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintBottom_toTopOf="@+id/editCourseNameField"
+        app:layout_constraintStart_toStartOf="@+id/editCourseNameField" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/editCourseNameField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="3dp"
@@ -68,10 +68,10 @@
         android:inputType="textPersonName"
         android:text="Name"
         app:layout_constraintBottom_toTopOf="@+id/editCourseCodeText"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintEnd_toEndOf="@+id/editCourseCodeField" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/editCourseCodeField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="323dp"
@@ -90,8 +90,8 @@
         android:layout_marginStart="1dp"
         android:layout_marginBottom="7dp"
         android:text="Edit Code:"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName3"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintBottom_toTopOf="@+id/editCourseCodeField"
+        app:layout_constraintStart_toStartOf="@+id/editCourseCodeField" />
 
     <Button
         android:id="@+id/sumbitEditBtn"
@@ -100,8 +100,8 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="15dp"
         android:text="Make Changes"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName3"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintStart_toStartOf="@+id/editCourseCodeField"
+        app:layout_constraintTop_toBottomOf="@+id/editCourseCodeField" />
 
     <Button
         android:id="@+id/editActivityBackBtn"

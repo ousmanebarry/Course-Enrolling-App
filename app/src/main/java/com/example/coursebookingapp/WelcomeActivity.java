@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    Account currentUser;
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

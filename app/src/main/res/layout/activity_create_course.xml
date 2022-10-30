@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="105dp"
         android:ems="10"
+        android:hint="Course Name"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="Course Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,9 +25,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:ems="10"
+        android:hint="Course Code"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="Course Code"
         app:layout_constraintStart_toStartOf="@+id/createCourseNameField"
         app:layout_constraintTop_toBottomOf="@+id/createCourseNameField" />
 

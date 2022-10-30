@@ -58,4 +58,5 @@ public class CreateCourseActivity extends AppCompatActivity {
                     }
                 });
     }
+
 }

@@ -1,5 +1,7 @@
 package com.example.coursebookingapp.classes;
 
+import java.util.HashMap;
+
 public class Course {
     private String name;
     private String courseCode;
@@ -52,5 +54,12 @@ public class Course {
     public void setHours(String hours) { this.hours = hours; }
     public void setCapacity(int capacity) { this.capacity = capacity; }
     public void setHasInstructor(boolean hasInstructor) { this.hasInstructor = hasInstructor; }
+
+    public HashMap<String,Object> getMap(){
+        HashMap<String,Object> out = new HashMap<String,Object>();
+        out.put("courseName",name);
+        out.put("courseCode",courseCode);
+        return out;
+    }
 
 }

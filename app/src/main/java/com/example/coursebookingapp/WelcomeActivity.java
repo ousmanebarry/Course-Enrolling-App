@@ -3,6 +3,8 @@ package com.example.coursebookingapp;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.coursebookingapp.classes.*;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +15,9 @@ import android.widget.TextView;
 public class WelcomeActivity extends AppCompatActivity {
 
     User currentUser;
+    Button createCourseBtn,editCourseBtn,deleteCourseBtn,deleteAccountBtn,signOut;
 
+    TextView userInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //placeholder
@@ -21,18 +25,17 @@ public class WelcomeActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        TextView welcomeText = findViewById(R.id.welcomeText);
-        //set welcome text
-        String welcomeMsg = "Welcome, " + currentUser.getUsername();
-        if(currentUser instanceof Admin){
-            welcomeMsg += "\nCurrent Role: Admin";
-        }else if (currentUser instanceof Instructor){
-            welcomeMsg += "\nCurrent Role: Instructor";
-        }else{
-            welcomeMsg += "\nCurrent Role: Student";
-        }
 
-        welcomeText.setText("Welcome, " + currentUser.getUsername());
+        //set welcome text
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uuid = user.getUid();
+
+        userInfo = findViewById(R.id.welcomeText);
+        userInfo.setText(String.format("user id : %s", uuid));
+
+
+
+
 
         //set button visibility depending on role (only admin so far)
         if(currentUser instanceof Admin){
@@ -42,14 +45,14 @@ public class WelcomeActivity extends AppCompatActivity {
             findViewById(R.id.deleteAccountBtn).setEnabled(true);
         }
 
-        //button listeners
-        Button createCourseBtn,editCourseBtn,deleteCourseBtn,deleteAccountBtn;
+
 
         createCourseBtn = findViewById(R.id.createCourseBtn);
         editCourseBtn = findViewById(R.id.editCourseBtn);
         deleteCourseBtn = findViewById(R.id.deleteCourseBtn);
         deleteAccountBtn = findViewById(R.id.deleteAccountBtn);
-
+        signOut = findViewById(R.id.logOutBtn);
+        //button listeners
         createCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +64,18 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(WelcomeActivity.this,DeleteCourseActivity.class));
+            }
+        });
+
+
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+
+                Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 

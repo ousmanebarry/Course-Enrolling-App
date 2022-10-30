@@ -22,18 +22,19 @@
         android:id="@+id/createCourseBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="53dp"
+        android:layout_marginBottom="20dp"
         android:text="Create Course"
         app:layout_constraintBottom_toTopOf="@+id/editCourseBtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/editCourseBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="11dp"
-        android:layout_marginBottom="43dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="16dp"
         android:text="Edit Course"
         app:layout_constraintBottom_toTopOf="@+id/deleteCourseBtn"
         app:layout_constraintStart_toStartOf="@+id/deleteCourseBtn" />
@@ -42,9 +43,10 @@
         android:id="@+id/deleteCourseBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="329dp"
+        android:layout_marginTop="256dp"
         android:text="Delete Course"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,8 +55,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="12dp"
         android:text="Delete User"
         app:layout_constraintStart_toStartOf="@+id/deleteCourseBtn"
         app:layout_constraintTop_toBottomOf="@+id/deleteCourseBtn" />
+
+    <Button
+        android:id="@+id/logOutBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="130dp"
+        android:text="Log Out"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/deleteAccountBtn"
+        app:layout_constraintStart_toStartOf="@+id/editCourseBtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

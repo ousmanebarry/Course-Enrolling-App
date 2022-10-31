@@ -20,6 +20,7 @@ public class WelcomeActivity extends AppCompatActivity {
     User currentUser;
     Button createCourseBtn,editCourseBtn,deleteCourseBtn,deleteAccountBtn,signOut;
     FirebaseFirestore fstore;
+    FirebaseAuth fauth;
 
     TextView userInfo;
     @Override
@@ -33,6 +34,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
         userInfo = findViewById(R.id.welcomeText);
         fstore = FirebaseFirestore.getInstance();
+        fauth = FirebaseAuth.getInstance();
+
         //update text
         fstore.collection("Users").document(uuid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -40,10 +43,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 userInfo.setText(String.format("Welcome, %s.\nRole: %s",documentSnapshot.get("Name"),documentSnapshot.get("AccountType")));
             }
         });
-
-
-
-
 
 
         //set button visibility depending on role (only admin so far)
@@ -90,6 +89,14 @@ public class WelcomeActivity extends AppCompatActivity {
                 Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        deleteAccountBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Example use deletion
+                // fauth.deleteUser()
             }
         });
 

@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         if (mAuth.getCurrentUser() != null) {
-            updateUI(mAuth.getCurrentUser());
+            updateUI();
         }
 
         email = findViewById(R.id.email);
@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            updateUI(mAuth.getCurrentUser());
+                            updateUI();
                         } else {
                             Toast.makeText(LoginActivity.this, "Invalid credentials",
                                     Toast.LENGTH_SHORT).show();
@@ -72,8 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void updateUI(FirebaseUser currentUser) {
-        FirebaseUser user = currentUser;
+    private void updateUI() {
         Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
         startActivity(intent);
         finish();

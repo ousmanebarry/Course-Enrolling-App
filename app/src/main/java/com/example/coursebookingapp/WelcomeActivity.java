@@ -3,8 +3,11 @@ package com.example.coursebookingapp;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.coursebookingapp.classes.*;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,13 +19,11 @@ public class WelcomeActivity extends AppCompatActivity {
 
     User currentUser;
     Button createCourseBtn,editCourseBtn,deleteCourseBtn,deleteAccountBtn,signOut;
+    FirebaseFirestore fstore;
 
     TextView userInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //placeholder
-        currentUser = new Admin("Name");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
@@ -31,7 +32,15 @@ public class WelcomeActivity extends AppCompatActivity {
         String uuid = user.getUid();
 
         userInfo = findViewById(R.id.welcomeText);
-        userInfo.setText(String.format("user id : %s", uuid));
+        fstore = FirebaseFirestore.getInstance();
+        //update text
+        fstore.collection("Users").document(uuid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                userInfo.setText(String.format("Welcome, %s.\nRole: %s",documentSnapshot.get("Name"),documentSnapshot.get("AccountType")));
+            }
+        });
+
 
 
 

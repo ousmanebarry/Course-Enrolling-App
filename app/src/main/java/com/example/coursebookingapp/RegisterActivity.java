@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.CheckBox;
 import android.widget.Button;
 import android.widget.Toast;
 import android.content.Intent;
@@ -27,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     boolean valid = true;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+    CheckBox isTeacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.registerPassword);
         registerBtn = findViewById(R.id.registerBtn);
         loginBtn = findViewById(R.id.loginBtn2);
-
+        isTeacher = findViewById(R.id.isTeacher);
 
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -61,14 +63,17 @@ public class RegisterActivity extends AppCompatActivity {
                                     Toast.makeText(RegisterActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
                                     DocumentReference df = fStore.collection("Users").document(user.getUid());
                                     Map<String, Object> userInfo =  new HashMap<>();
+                                    userInfo.put("AccountType",isTeacher.isChecked() ? "Teacher" : "Student");
                                     userInfo.put("Name", name.getText().toString());
                                     userInfo.put("Email", email.getText().toString());
 
-                                    userInfo.put("isTeacher", "0");
+                                    userInfo.put("isTeacher", isTeacher.isChecked() ? true : false);
+
+
 
                                     df.set(userInfo);
 
-                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                    startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
                                     finish();
                                 }
                             }).addOnFailureListener(new OnFailureListener() {

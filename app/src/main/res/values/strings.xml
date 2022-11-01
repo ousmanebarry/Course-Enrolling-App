@@ -16,4 +16,7 @@
     <string name="menu_slideshow">Slideshow</string>
     <string name="main">MAIN</string>
     <string name="logout">logout</string>
+    <string name="back">back</string>
+    <string name="emailToDelete">Email</string>
+    <string name="delete_user">delete user</string>
 </resources>

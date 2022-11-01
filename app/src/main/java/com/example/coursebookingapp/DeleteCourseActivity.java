@@ -26,6 +26,7 @@ public class DeleteCourseActivity extends AppCompatActivity {
 
         Button deleteBtn = findViewById(R.id.deleteCourseSubmitBtn);
         EditText courseCode = findViewById(R.id.deleteCourseCodeField);
+        Button backBtn = findViewById(R.id.deleteActivityBackBtn);
 
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,14 +38,13 @@ public class DeleteCourseActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if(task.isSuccessful()){
-                                    Toast.makeText(DeleteCourseActivity.this,"Found Course",Toast.LENGTH_SHORT).show();
                                     String courseId = task.getResult().getDocuments().get(0).getId();
                                     fstore.collection("courses").document(courseId)
                                             .delete()
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
-                                                    Toast.makeText(DeleteCourseActivity.this,"Course succesfully deleted",Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(DeleteCourseActivity.this,"Course successfully deleted",Toast.LENGTH_SHORT).show();
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
@@ -59,6 +59,13 @@ public class DeleteCourseActivity extends AppCompatActivity {
 
                             }
                         });
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 

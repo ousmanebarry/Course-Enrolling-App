@@ -64,19 +64,28 @@ public class WelcomeActivity extends AppCompatActivity {
         createCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(WelcomeActivity.this,CreateCourseActivity.class));
+                startActivity(new Intent(WelcomeActivity.this, CreateCourseActivity.class));
             }
         });
         editCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(WelcomeActivity.this,EditCourseActivity.class));
+                startActivity(new Intent(WelcomeActivity.this, EditCourseActivity.class));
             }
         });
         deleteCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(WelcomeActivity.this,DeleteCourseActivity.class));
+                startActivity(new Intent(WelcomeActivity.this, DeleteCourseActivity.class));
+            }
+        });
+
+        deleteAccountBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Example use deletion
+                // fauth.deleteUser()
+                startActivity(new Intent(WelcomeActivity.this, DeleteUserActivity.class));
             }
         });
 
@@ -92,13 +101,7 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
-        deleteAccountBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Example use deletion
-                // fauth.deleteUser()
-            }
-        });
+
 
 
     }

@@ -10,6 +10,7 @@ public class Course {
     private String hours;
     private int capacity;
     private boolean hasInstructor;
+    private String docID;
 
 
     public Course(String name, String courseCode){
@@ -18,8 +19,7 @@ public class Course {
         this.hasInstructor = false;
     }
 
-    public Course(String name, String courseCode, String desc, String day, String hours,
-                  int capacity) {
+    public Course(String name, String courseCode, String desc, String day, String hours, int capacity) {
         this.setName(name);
         this.setCourseCode(courseCode);
         this.setDesc(desc);
@@ -60,6 +60,13 @@ public class Course {
         out.put("courseName",name);
         out.put("courseCode",courseCode);
         return out;
+    }
+
+    public String getDocID(){
+        return getDocID();
+    }
+    public void setDocID(String docID){
+        this.docID = docID;
     }
 
 }

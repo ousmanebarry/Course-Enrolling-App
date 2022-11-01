@@ -38,7 +38,6 @@ public class CreateCourseActivity extends AppCompatActivity {
                 addCourse(newCourse);
             }
         });
-
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,12 +46,12 @@ public class CreateCourseActivity extends AppCompatActivity {
         });
 
     }
-
     void addCourse(Course c){
         fStore.collection("courses").add(c.getMap())
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        c.setDocID(documentReference.getId());
                         Toast.makeText(CreateCourseActivity.this, "Successfully added Course!",Toast.LENGTH_SHORT).show();
                         courseCodeField.setText("");
                         courseNameField.setText("");

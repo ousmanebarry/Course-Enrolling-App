@@ -3,11 +3,11 @@ package com.example.coursebookingapp;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.coursebookingapp.classes.*;
 import com.example.coursebookingapp.database.Auth;
+import com.example.coursebookingapp.database.Store;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,11 +18,11 @@ import android.widget.TextView;
 import java.util.Objects;
 
 public class WelcomeActivity extends AppCompatActivity {
-
-    Button createCourseBtn, editCourseBtn, deleteCourseBtn, deleteAccountBtn, signOut;
-    FirebaseFirestore fstore;
     Auth auth;
+    Store store;
     String accountType;
+    Button createCourseBtn, editCourseBtn, deleteCourseBtn, deleteAccountBtn, signOut;
+
 
     TextView userInfo;
     @Override
@@ -30,16 +30,15 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        //set welcome text
+
+        auth = new Auth();
+        store = new Store();
         FirebaseUser user = auth.getCurrentUser();
         String uuid = user.getUid();
-
         userInfo = findViewById(R.id.welcomeText);
-        fstore = FirebaseFirestore.getInstance();
 
 
-        //update text
-        fstore.collection("user").document(uuid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        store.getUserDocument(uuid).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 userInfo.setText(String.format("Welcome, %s.\nRole: %s",documentSnapshot.get("name"),documentSnapshot.get("accountType")));

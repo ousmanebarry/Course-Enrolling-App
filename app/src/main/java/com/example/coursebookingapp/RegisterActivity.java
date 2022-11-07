@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     Auth auth;
@@ -49,15 +48,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.registerBtn:
-                email = emailField.getText().toString();
-                password = passwordField.getText().toString();
-                signUpWithEmailPassword(email, password);
-                break;
-            case R.id.loginBtnRegister:
-                updateScreen(LoginActivity.class);
-                break;
+        int id = v.getId();
+
+        if (id == R.id.registerBtn) {
+            email = emailField.getText().toString();
+            password = passwordField.getText().toString();
+            signUpWithEmailPassword(email, password);
+        } else if (id == R.id.loginBtnRegister) {
+            updateScreenLogin();
         }
     }
 
@@ -79,14 +77,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        Task<AuthResult> task = auth.signUp(email, password);
+        Task<AuthResult> taskAuth = auth.signUp(email, password);
 
-        OnCompleteListener<AuthResult> listener = new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) { onSignUpComplete(task); }
-        };
+        OnCompleteListener<AuthResult> listener = this::onSignUpComplete;
 
-        task.addOnCompleteListener(RegisterActivity.this, listener);
+        taskAuth.addOnCompleteListener(RegisterActivity.this, listener);
     }
 
     private void onSignUpComplete(@NonNull Task<AuthResult> task) {
@@ -103,19 +98,19 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             store.addUser(newUserInfo, user.getUid());
 
-            updateScreenFinal(WelcomeActivity.class);
+            updateScreenWelcome();
         } else {
             toast("An error occurred");
         }
     }
 
-    private void updateScreen(Class<LoginActivity> next){
-        Intent intent = new Intent(getApplicationContext(), next);
+    private void updateScreenLogin(){
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }
 
-    private void updateScreenFinal(Class<WelcomeActivity> next) {
-        Intent intent = new Intent(getApplicationContext(), next);
+    private void updateScreenWelcome() {
+        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
         startActivity(intent);
         finish();
     }

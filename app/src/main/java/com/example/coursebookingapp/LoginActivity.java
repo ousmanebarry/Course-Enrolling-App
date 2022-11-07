@@ -34,54 +34,51 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginBtn = findViewById(R.id.loginBtn);
         registerBtn = findViewById(R.id.registerBtn);
 
-        if (auth.isSignedIn()) { updateScreenFinal(WelcomeActivity.class); }
+        if (auth.isSignedIn()) { updateScreenWelcome(); }
 
         setClickListeners();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.loginBtn:
-                email = emailField.getText().toString();
-                password = passwordField.getText().toString();
-                signInWithEmailPassword(email, password);
-                break;
-            case R.id.registerBtn:
-                updateScreen(RegisterActivity.class);
-                break;
+        int id = v.getId();
+
+        if (id == R.id.loginBtn) {
+            email = emailField.getText().toString();
+            password = passwordField.getText().toString();
+            signInWithEmailPassword(email, password);
+        } else if (id == R.id.registerBtn) {
+            updateScreenRegister();
         }
     }
 
     private void signInWithEmailPassword(String email, String password) {
 
-        Task<AuthResult> task = auth.signIn(email, password);
+        Task<AuthResult> taskAuth = auth.signIn(email, password);
 
-        OnCompleteListener<AuthResult> listener = new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) { onSignInComplete(task); }
-        };
+        OnCompleteListener<AuthResult> listener = this::onSignInComplete;
 
-        task.addOnCompleteListener(LoginActivity.this, listener);
+        taskAuth.addOnCompleteListener(LoginActivity.this, listener);
 
     }
 
     private void onSignInComplete(@NonNull Task<AuthResult> task) {
 
         if (task.isSuccessful()) {
-            updateScreenFinal(WelcomeActivity.class);
+            updateScreenWelcome();
+            toast("Successfully signed in");
         } else {
             toast("Invalid credentials");
         }
     }
 
-    private void updateScreen(Class<RegisterActivity> next){
-        Intent intent = new Intent(getApplicationContext(), next);
+    private void updateScreenRegister(){
+        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(intent);
     }
 
-    private void updateScreenFinal(Class<WelcomeActivity> next) {
-        Intent intent = new Intent(getApplicationContext(), next);
+    private void updateScreenWelcome() {
+        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
         startActivity(intent);
         finish();
     }

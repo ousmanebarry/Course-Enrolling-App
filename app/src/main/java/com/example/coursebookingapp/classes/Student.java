@@ -9,6 +9,10 @@ public class Student extends User {
         super();
     }
 
+    public Student(String email, String name) {
+        super(email, name);
+    }
+
     public Student(ArrayList<String> courses) {
         super();
     }

@@ -29,9 +29,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         auth = new Auth();
-        emailField = findViewById(R.id.email);
-        passwordField = findViewById(R.id.password);
-
+        emailField = findViewById(R.id.loginEmail);
+        passwordField = findViewById(R.id.loginPassword);
         loginBtn = findViewById(R.id.loginBtn);
         registerBtn = findViewById(R.id.registerBtn);
 
@@ -46,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.loginBtn:
                 email = emailField.getText().toString();
                 password = passwordField.getText().toString();
-                loginWithEmailPassword(email, password);
+                signInWithEmailPassword(email, password);
                 break;
             case R.id.registerBtn:
                 updateScreen(RegisterActivity.class);
@@ -54,20 +53,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void loginWithEmailPassword(String email, String password) {
+    private void signInWithEmailPassword(String email, String password) {
 
         Task<AuthResult> task = auth.signIn(email, password);
 
         OnCompleteListener<AuthResult> listener = new OnCompleteListener<AuthResult>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) { onLoginComplete(task); }
+            public void onComplete(@NonNull Task<AuthResult> task) { onSignInComplete(task); }
         };
 
         task.addOnCompleteListener(LoginActivity.this, listener);
 
     }
 
-    private void onLoginComplete(@NonNull Task<AuthResult> task) {
+    private void onSignInComplete(@NonNull Task<AuthResult> task) {
 
         if (task.isSuccessful()) {
             updateScreenFinal(WelcomeActivity.class);
@@ -88,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void toast(String text) {
-        Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 
     private void setClickListeners() {

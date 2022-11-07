@@ -11,23 +11,23 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.content.Intent;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.coursebookingapp.classes.Instructor;
+import com.example.coursebookingapp.classes.Student;
+import com.example.coursebookingapp.classes.User;
+import com.example.coursebookingapp.database.Auth;
+import com.example.coursebookingapp.database.Store;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class RegisterActivity extends AppCompatActivity {
-    EditText name,email,password;
-    Button registerBtn,loginBtn;
-    boolean valid = true;
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+    Auth auth;
+    Store store;
+    EditText nameField, emailField, passwordField;
+    String name, email, password;
+    Button loginBtn, registerBtn;
     CheckBox isTeacher;
 
     @Override
@@ -35,74 +35,96 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-
-
-        name = findViewById(R.id.registerName);
-        email = findViewById(R.id.registerEmail);
-        password = findViewById(R.id.registerPassword);
+        auth = new Auth();
+        store = new Store();
+        nameField = findViewById(R.id.registerName);
+        emailField = findViewById(R.id.registerEmail);
+        passwordField = findViewById(R.id.registerPassword);
         registerBtn = findViewById(R.id.registerBtn);
-        loginBtn = findViewById(R.id.loginBtn2);
+        loginBtn = findViewById(R.id.loginBtnRegister);
         isTeacher = findViewById(R.id.isTeacher);
 
-
-        registerBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkField(name);
-                checkField(email);
-                checkField(password);
-
-                if(valid){
-                    fAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                @Override
-                                public void onSuccess(AuthResult authResult) {
-                                    FirebaseUser user = fAuth.getCurrentUser();
-                                    Toast.makeText(RegisterActivity.this, "Account Created", Toast.LENGTH_SHORT).show();
-                                    DocumentReference df = fStore.collection("Users").document(user.getUid());
-                                    Map<String, Object> userInfo =  new HashMap<>();
-                                    userInfo.put("AccountType",isTeacher.isChecked() ? "Teacher" : "Student");
-                                    userInfo.put("Name", name.getText().toString());
-                                    userInfo.put("Email", email.getText().toString());
-
-                                    userInfo.put("isTeacher", isTeacher.isChecked() ? true : false);
-
-
-
-                                    df.set(userInfo);
-
-                                    startActivity(new Intent(getApplicationContext(), WelcomeActivity.class));
-                                    finish();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(RegisterActivity.this, "Failed to Create Account", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                }
-            }
-        });
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            }
-        });
-
+        setClickListeners();
     }
 
-    public boolean checkField(EditText textField){
-        if(textField.getText().toString().isEmpty()){
-            textField.setError("Error");
-            valid = false;
-        }else {
-            valid = true;
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.registerBtn:
+                email = emailField.getText().toString();
+                password = passwordField.getText().toString();
+                signUpWithEmailPassword(email, password);
+                break;
+            case R.id.loginBtnRegister:
+                updateScreen(LoginActivity.class);
+                break;
+        }
+    }
+
+    public boolean fieldsFilled(){
+        EditText[] editTexts = {nameField, emailField, passwordField};
+
+        for (EditText editText : editTexts) {
+            if (editText.getText().toString().isEmpty()) {
+                return false;
+            }
         }
 
-        return valid;
+        return true;
+    }
+
+    private void signUpWithEmailPassword(String email, String password) {
+        if (!fieldsFilled()) {
+            toast("Empty fields");
+            return;
+        }
+
+        Task<AuthResult> task = auth.signUp(email, password);
+
+        OnCompleteListener<AuthResult> listener = new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) { onSignUpComplete(task); }
+        };
+
+        task.addOnCompleteListener(RegisterActivity.this, listener);
+    }
+
+    private void onSignUpComplete(@NonNull Task<AuthResult> task) {
+        if (task.isSuccessful()) {
+            User newUserInfo;
+            FirebaseUser user = auth.getCurrentUser();
+
+            if (isTeacher.isChecked()) {
+                newUserInfo = new Instructor(email, name);
+            } else {
+                newUserInfo = new Student(email, name);
+            }
+
+            store.addUser(newUserInfo, user.getUid());
+
+            updateScreenFinal(WelcomeActivity.class);
+        } else {
+            toast("An error occurred");
+        }
+    }
+
+    private void updateScreen(Class<LoginActivity> next){
+        Intent intent = new Intent(getApplicationContext(), next);
+        startActivity(intent);
+    }
+
+    private void updateScreenFinal(Class<WelcomeActivity> next) {
+        Intent intent = new Intent(getApplicationContext(), next);
+        startActivity(intent);
+        finish();
+    }
+
+    private void toast(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    private void setClickListeners() {
+        loginBtn.setOnClickListener(this);
+        registerBtn.setOnClickListener(this);
     }
 }

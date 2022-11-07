@@ -82,7 +82,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/isStudent" />
 
             <Button
-                android:id="@+id/loginBtn2"
+                android:id="@+id/loginBtnRegister"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

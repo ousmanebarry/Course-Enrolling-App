@@ -9,6 +9,8 @@ public class Instructor extends User {
         super();
     }
 
-
+    public Instructor(String email, String name) {
+        super(email, name);
+    }
 
 }

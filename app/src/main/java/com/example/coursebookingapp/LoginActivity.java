@@ -10,71 +10,89 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.Button;
 
+import com.example.coursebookingapp.database.Auth;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private FirebaseAuth mAuth;
-    EditText email, password;
-    Button login, register;
+    Auth auth;
+    String email, password;
+    Button loginBtn, registerBtn;
+    EditText emailField, passwordField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
+        auth = new Auth();
+        emailField = findViewById(R.id.email);
+        passwordField = findViewById(R.id.password);
 
-        if (mAuth.getCurrentUser() != null) {
-            updateUI();
+        loginBtn = findViewById(R.id.loginBtn);
+        registerBtn = findViewById(R.id.registerBtn);
+
+        if (auth.isSignedIn()) { updateScreenFinal(WelcomeActivity.class); }
+
+        setClickListeners();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.loginBtn:
+                email = emailField.getText().toString();
+                password = passwordField.getText().toString();
+                loginWithEmailPassword(email, password);
+                break;
+            case R.id.registerBtn:
+                updateScreen(RegisterActivity.class);
+                break;
         }
-
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
-        login = findViewById(R.id.login_btn);
-        register = findViewById(R.id.registerBtn);
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String emailStr = email.getText().toString();
-                String passStr = password.getText().toString();
-                loginWithEmailPassword(emailStr, passStr);
-            }
-        });
-
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
-            }
-        });
-
     }
 
     private void loginWithEmailPassword(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            updateUI();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Invalid credentials",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+
+        Task<AuthResult> task = auth.signIn(email, password);
+
+        OnCompleteListener<AuthResult> listener = new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) { onLoginComplete(task); }
+        };
+
+        task.addOnCompleteListener(LoginActivity.this, listener);
+
     }
 
-    private void updateUI() {
-        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+    private void onLoginComplete(@NonNull Task<AuthResult> task) {
+
+        if (task.isSuccessful()) {
+            updateScreenFinal(WelcomeActivity.class);
+        } else {
+            toast("Invalid credentials");
+        }
+    }
+
+    private void updateScreen(Class<RegisterActivity> next){
+        Intent intent = new Intent(getApplicationContext(), next);
+        startActivity(intent);
+    }
+
+    private void updateScreenFinal(Class<WelcomeActivity> next) {
+        Intent intent = new Intent(getApplicationContext(), next);
         startActivity(intent);
         finish();
+    }
+
+    private void toast(String text) {
+        Toast.makeText(LoginActivity.this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    private void setClickListeners() {
+        loginBtn.setOnClickListener(this);
+        registerBtn.setOnClickListener(this);
     }
 }

@@ -3,6 +3,7 @@ package com.example.coursebookingapp.database;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Auth {
     private final FirebaseAuth auth;
@@ -20,6 +21,8 @@ public class Auth {
     }
 
     public void signOut() { auth.signOut(); }
+
+    public FirebaseUser getCurrentUser() { return auth.getCurrentUser(); }
 
     public boolean isSignedIn() { return auth.getCurrentUser() != null; }
 }

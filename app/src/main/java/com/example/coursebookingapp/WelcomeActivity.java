@@ -1,8 +1,8 @@
 package com.example.coursebookingapp;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.coursebookingapp.classes.*;
+import com.example.coursebookingapp.database.Auth;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,7 +22,7 @@ public class WelcomeActivity extends AppCompatActivity {
     User currentUser;
     Button createCourseBtn,editCourseBtn,deleteCourseBtn,deleteAccountBtn,signOut;
     FirebaseFirestore fstore;
-    FirebaseAuth fauth;
+    Auth auth;
     String accountType;
 
     TextView userInfo;
@@ -37,7 +37,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
         userInfo = findViewById(R.id.welcomeText);
         fstore = FirebaseFirestore.getInstance();
-        fauth = FirebaseAuth.getInstance();
 
 
         //update text
@@ -58,13 +57,12 @@ public class WelcomeActivity extends AppCompatActivity {
             findViewById(R.id.deleteAccountBtn).setEnabled(false);
         }
 
-
-
         createCourseBtn = findViewById(R.id.createCourseBtn);
         editCourseBtn = findViewById(R.id.editCourseBtn);
         deleteCourseBtn = findViewById(R.id.deleteCourseBtn);
         deleteAccountBtn = findViewById(R.id.deleteAccountBtn);
         signOut = findViewById(R.id.logOutBtn);
+
         //button listeners
         createCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,9 +103,5 @@ public class WelcomeActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
-
     }
 }

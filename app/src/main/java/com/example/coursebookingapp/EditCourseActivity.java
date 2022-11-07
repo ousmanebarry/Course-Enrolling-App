@@ -48,7 +48,7 @@ public class EditCourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //search for course
-                fstore.collection("courses").
+                fstore.collection("course").
                         whereEqualTo("courseCode",findField.getText().toString())
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

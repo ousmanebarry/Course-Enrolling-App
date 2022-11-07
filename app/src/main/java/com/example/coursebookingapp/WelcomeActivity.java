@@ -19,8 +19,7 @@ import java.util.Objects;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    User currentUser;
-    Button createCourseBtn,editCourseBtn,deleteCourseBtn,deleteAccountBtn,signOut;
+    Button createCourseBtn, editCourseBtn, deleteCourseBtn, deleteAccountBtn, signOut;
     FirebaseFirestore fstore;
     Auth auth;
     String accountType;
@@ -32,7 +31,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         //set welcome text
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = auth.getCurrentUser();
         String uuid = user.getUid();
 
         userInfo = findViewById(R.id.welcomeText);
@@ -40,18 +39,19 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
         //update text
-        fstore.collection("Users").document(uuid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        fstore.collection("user").document(uuid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                userInfo.setText(String.format("Welcome, %s.\nRole: %s",documentSnapshot.get("Name"),documentSnapshot.get("AccountType")));
-                accountType = documentSnapshot.get("AccountType").toString();
+                userInfo.setText(String.format("Welcome, %s.\nRole: %s",documentSnapshot.get("name"),documentSnapshot.get("accountType")));
+                accountType = documentSnapshot.get("accountType").toString();
             }
         });
 
 
         //set button visibility depending on role (only admin so far)
-        if(!Objects.equals(accountType, "Admin")){
+        if(!Objects.equals(accountType, "Admin")) {
             findViewById(R.id.createCourseBtn).setEnabled(false);
+
             findViewById(R.id.deleteCourseBtn).setEnabled(false);
             findViewById(R.id.editCourseBtn).setEnabled(false);
             findViewById(R.id.deleteAccountBtn).setEnabled(false);

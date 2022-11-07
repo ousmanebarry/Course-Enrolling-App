@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     EditText nameField, emailField, passwordField;
     String name, email, password;
     Button loginBtn, registerBtn;
-    CheckBox isTeacher;
+    CheckBox isInstructor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         passwordField = findViewById(R.id.registerPassword);
         registerBtn = findViewById(R.id.registerBtn);
         loginBtn = findViewById(R.id.loginBtnRegister);
-        isTeacher = findViewById(R.id.isTeacher);
+        isInstructor = findViewById(R.id.isInstructor);
 
         setClickListeners();
     }
@@ -92,9 +92,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void onSignUpComplete(@NonNull Task<AuthResult> task) {
         if (task.isSuccessful()) {
             User newUserInfo;
+            name = nameField.getText().toString();
             FirebaseUser user = auth.getCurrentUser();
 
-            if (isTeacher.isChecked()) {
+            if (isInstructor.isChecked()) {
                 newUserInfo = new Instructor(email, name);
             } else {
                 newUserInfo = new Student(email, name);

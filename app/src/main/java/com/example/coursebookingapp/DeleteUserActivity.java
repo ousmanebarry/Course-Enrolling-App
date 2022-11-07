@@ -33,7 +33,7 @@ public class DeleteUserActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = emailAddress.getText().toString();
 
-                fstore.collection("Users").
+                fstore.collection("user").
                         whereEqualTo("Email", email)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

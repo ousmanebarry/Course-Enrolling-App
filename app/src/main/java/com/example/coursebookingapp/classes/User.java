@@ -7,7 +7,7 @@ public class User {
     protected String accountType;
     protected String email;
     protected String name;
-    protected boolean isTeacher;
+    protected boolean isInstructor;
 
 
     public User() {
@@ -18,8 +18,7 @@ public class User {
         this.email = email;
         this.name = name;
         this.accountType = this.getClass().getSimpleName();
-
-        isTeacher = accountType.equals("Instructor");
+        isInstructor = accountType.equals("Instructor");
     }
 
 
@@ -31,10 +30,10 @@ public class User {
 
     public HashMap<String,Object> getMap(){
         HashMap<String,Object> out = new HashMap<String,Object>();
-        out.put("AccountType", accountType);
-        out.put("Name", name);
-        out.put("Email", email);
-        out.put("isTeacher", isTeacher);
+        out.put("accountType", accountType);
+        out.put("name", name);
+        out.put("email", email);
+        out.put("isInstructor", isInstructor);
         return out;
     }
 }

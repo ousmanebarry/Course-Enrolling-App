@@ -25,7 +25,7 @@ public class Store {
     }
 
     public Task<DocumentSnapshot> getUserDocument(String uuid) {
-        return store.collection("user").document(uuid).get();
+        return store.collection(USER_PATH).document(uuid).get().addOnCompleteListener();
     }
 
 

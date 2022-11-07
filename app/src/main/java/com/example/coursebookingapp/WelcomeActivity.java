@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
@@ -28,24 +28,21 @@ public class WelcomeActivity extends AppCompatActivity {
 
         auth = new Auth();
         store = new Store();
-        String uuid = auth.getCurrentUser().getUid();
         userInfo = findViewById(R.id.welcomeText);
-
+        String uuid = auth.getCurrentUser().getUid();
 
         store.getUserDocument(uuid).addOnSuccessListener(documentSnapshot -> {
-            userInfo.setText(String.format("Welcome, %s.\nRole: %s",documentSnapshot.get("name"),documentSnapshot.get("accountType")));
-            accountType = documentSnapshot.get("accountType").toString();
+            accountType = Objects.requireNonNull(documentSnapshot.get("accountType")).toString();
+
+            userInfo.setText(String.format("Welcome, %s.\nRole: %s",documentSnapshot.get("name"), accountType));
+
+            if(!Objects.equals(accountType, "Admin")) {
+                findViewById(R.id.createCourseBtn).setEnabled(false);
+                findViewById(R.id.deleteCourseBtn).setEnabled(false);
+                findViewById(R.id.editCourseBtn).setEnabled(false);
+                findViewById(R.id.deleteAccountBtn).setEnabled(false);
+            }
         });
-
-
-        //set button visibility depending on role (only admin so far)
-        if(!Objects.equals(accountType, "Admin")) {
-            findViewById(R.id.createCourseBtn).setEnabled(false);
-
-            findViewById(R.id.deleteCourseBtn).setEnabled(false);
-            findViewById(R.id.editCourseBtn).setEnabled(false);
-            findViewById(R.id.deleteAccountBtn).setEnabled(false);
-        }
 
         createCourseBtn = findViewById(R.id.createCourseBtn);
         editCourseBtn = findViewById(R.id.editCourseBtn);
@@ -53,7 +50,6 @@ public class WelcomeActivity extends AppCompatActivity {
         deleteAccountBtn = findViewById(R.id.deleteAccountBtn);
         signOut = findViewById(R.id.logOutBtn);
 
-        //button listeners
         createCourseBtn.setOnClickListener(view -> updateScreen(CreateCourseActivity.class));
         editCourseBtn.setOnClickListener(view -> updateScreen(EditCourseActivity.class));
         deleteCourseBtn.setOnClickListener(view -> updateScreen(DeleteCourseActivity.class));

@@ -53,7 +53,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void signInWithEmailPassword(String email, String password) {
-
         Task<AuthResult> taskAuth = auth.signIn(email, password);
 
         OnCompleteListener<AuthResult> listener = this::onSignInComplete;

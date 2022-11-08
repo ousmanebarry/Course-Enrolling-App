@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.CheckBox;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.Toast;
 import android.content.Intent;
 
@@ -27,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     EditText nameField, emailField, passwordField;
     String name, email, password;
     Button loginBtn, registerBtn;
-    CheckBox isInstructor;
+    RadioButton isInstructor, isStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         registerBtn = findViewById(R.id.registerBtn);
         loginBtn = findViewById(R.id.loginBtnRegister);
         isInstructor = findViewById(R.id.isInstructor);
+        isStudent = findViewById(R.id.isStudent);
 
         setClickListeners();
     }

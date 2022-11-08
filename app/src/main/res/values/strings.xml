@@ -19,4 +19,6 @@
     <string name="back">back</string>
     <string name="emailToDelete">Email</string>
     <string name="delete_user">delete user</string>
+    <string name="pirates" />
+    <string name="ninjas" />
 </resources>

@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 

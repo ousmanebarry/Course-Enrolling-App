@@ -10,22 +10,25 @@ public class Store {
 
     private final String USER_PATH;
     private final String COURSE_PATH;
-
-    private FirebaseFirestore store;
+    private final FirebaseFirestore store;
 
     public Store() {
-        store = FirebaseFirestore.getInstance();
         USER_PATH = "user";
         COURSE_PATH = "course";
+        store = FirebaseFirestore.getInstance();
     }
 
     public void addUser(User user, String uuid) {
-        DocumentReference df = store.collection("user").document(uuid);
+        DocumentReference df = store.collection(USER_PATH).document(uuid);
         df.set(user.getMap());
     }
 
     public Task<DocumentSnapshot> getUserDocument(String uuid) {
         return store.collection(USER_PATH).document(uuid).get();
+    }
+
+    public Task<DocumentSnapshot> getCourseDocument(String uuid) {
+        return store.collection(COURSE_PATH).document(uuid).get();
     }
 
 

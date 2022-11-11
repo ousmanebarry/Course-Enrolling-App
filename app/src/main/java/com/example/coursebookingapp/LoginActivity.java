@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
 
@@ -20,7 +21,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     Auth auth;
     String email, password;
-    Button loginBtn, registerBtn;
+    Button loginBtn;
+    TextView registerBtn;
     EditText emailField, passwordField;
 
     @Override
@@ -54,15 +56,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void signInWithEmailPassword(String email, String password) {
         Task<AuthResult> taskAuth = auth.signIn(email, password);
-
         OnCompleteListener<AuthResult> listener = this::onSignInComplete;
-
         taskAuth.addOnCompleteListener(LoginActivity.this, listener);
-
     }
 
     private void onSignInComplete(@NonNull Task<AuthResult> task) {
-
         if (task.isSuccessful()) {
             updateScreenWelcome();
             toast("Successfully signed in");

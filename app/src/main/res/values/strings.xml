@@ -21,4 +21,9 @@
     <string name="delete_user">delete user</string>
     <string name="pirates" />
     <string name="ninjas" />
+    <string name="enter_your_email_address">Enter your email address</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="if_you_don_t_have_an_account_you_can">If you don\'t have an account. You can</string>
+    <string name="register_here">Register Here !</string>
+    <string name="sign_in">Sign in</string>
 </resources>

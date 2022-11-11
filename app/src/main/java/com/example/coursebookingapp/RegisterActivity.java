@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.CheckBox;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -41,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         emailField = findViewById(R.id.registerEmail);
         passwordField = findViewById(R.id.registerPassword);
         registerBtn = findViewById(R.id.registerBtn);
-        loginBtn = findViewById(R.id.loginBtnRegister);
+        loginBtn = findViewById(R.id.loginBtn);
         isInstructor = findViewById(R.id.isInstructor);
         isStudent = findViewById(R.id.isStudent);
 
@@ -56,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             email = emailField.getText().toString();
             password = passwordField.getText().toString();
             signUpWithEmailPassword(email, password);
-        } else if (id == R.id.loginBtnRegister) {
+        } else if (id == R.id.loginBtn) {
             updateScreenLogin();
         }
     }
@@ -80,9 +79,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
 
         Task<AuthResult> taskAuth = auth.signUp(email, password);
-
         OnCompleteListener<AuthResult> listener = this::onSignUpComplete;
-
         taskAuth.addOnCompleteListener(RegisterActivity.this, listener);
     }
 

@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         emailField = findViewById(R.id.registerName);
         passwordField = findViewById(R.id.registerEmail);
         loginBtn = findViewById(R.id.loginBtn);
-        registerBtn = findViewById(R.id.loginBtn);
+        registerBtn = findViewById(R.id.registerBtn);
 
         if (auth.isSignedIn()) { updateScreenWelcome(); }
 
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             email = emailField.getText().toString();
             password = passwordField.getText().toString();
             signInWithEmailPassword(email, password);
-        } else if (id == R.id.loginBtn) {
+        } else if (id == R.id.registerBtn) {
             updateScreenRegister();
         }
     }

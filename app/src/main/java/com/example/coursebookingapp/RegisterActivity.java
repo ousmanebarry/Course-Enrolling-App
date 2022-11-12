@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
@@ -26,7 +27,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     Store store;
     EditText nameField, emailField, passwordField;
     String name, email, password;
-    Button loginBtn, registerBtn;
+    Button registerBtn;
+    TextView loginBtn;
     RadioButton isInstructor, isStudent;
 
     @Override
@@ -39,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         nameField = findViewById(R.id.registerName);
         emailField = findViewById(R.id.registerEmail);
         passwordField = findViewById(R.id.registerPassword);
-        registerBtn = findViewById(R.id.loginBtn);
+        registerBtn = findViewById(R.id.registerBtn);
         loginBtn = findViewById(R.id.loginBtn);
         isInstructor = findViewById(R.id.isInstructor);
         isStudent = findViewById(R.id.isStudent);
@@ -51,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         int id = v.getId();
 
-        if (id == R.id.loginBtn) {
+        if (id == R.id.registerBtn) {
             email = emailField.getText().toString();
             password = passwordField.getText().toString();
             signUpWithEmailPassword(email, password);
@@ -106,6 +108,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void updateScreenLogin(){
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void updateScreenWelcome() {

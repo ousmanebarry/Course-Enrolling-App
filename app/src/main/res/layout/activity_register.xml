@@ -164,8 +164,6 @@
         android:layout_width="141dp"
         android:layout_height="27dp"
         android:layout_marginBottom="4dp"
-        android:clickable="true"
-        android:focusable="true"
         android:text="@string/login_here"
         android:textColor="#FF5722"
         android:textSize="20sp"

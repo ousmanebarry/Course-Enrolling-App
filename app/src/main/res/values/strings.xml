@@ -33,4 +33,8 @@
     <string name="name">Name</string>
     <string name="log_out">Log out</string>
     <string name="add_course">Add Course</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="course_name">Course name</string>
+    <string name="course_code">Course code</string>
 </resources>

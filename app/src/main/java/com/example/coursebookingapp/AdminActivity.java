@@ -6,11 +6,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
+import com.example.coursebookingapp.models.AdminCourseModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class AdminActivity extends AppCompatActivity {
@@ -29,6 +33,7 @@ public class AdminActivity extends AppCompatActivity {
         store = new Store();
         String uuid = auth.getCurrentUser().getUid();
 
+        RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
         welcomeTxt = findViewById(R.id.welcomeTxt);
         logoutBtn = findViewById(R.id.logOutBtn);
 
@@ -37,12 +42,19 @@ public class AdminActivity extends AppCompatActivity {
         });
 
         store.getAllCourses().addOnSuccessListener(query -> {
+            ArrayList<AdminCourseModel> courseModels = new ArrayList<>();
+
             for (DocumentSnapshot snapshot : query) {
                 String name = Objects.requireNonNull(snapshot.get("name")).toString();
                 String code = Objects.requireNonNull(snapshot.get("code")).toString();
-
-                // Create RecyclerView here
+                AdminCourseModel adminCourseModel = new AdminCourseModel(name, code);
+                courseModels.add(adminCourseModel);
             }
+
+            CourseRecyclerViewAdapter adapter = new CourseRecyclerViewAdapter(this, courseModels);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         });
 
         logoutBtn.setOnClickListener(view -> {

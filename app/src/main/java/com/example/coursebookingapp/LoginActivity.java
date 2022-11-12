@@ -67,7 +67,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 return false;
             }
         }
-
         return true;
     }
 
@@ -94,6 +93,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void updateScreenRegister(){
         Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     private void updateScreenWelcome() {

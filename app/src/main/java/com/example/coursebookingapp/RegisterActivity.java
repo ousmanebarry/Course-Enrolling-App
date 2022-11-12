@@ -131,4 +131,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         loginBtn.setOnClickListener(this);
         registerBtn.setOnClickListener(this);
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 }

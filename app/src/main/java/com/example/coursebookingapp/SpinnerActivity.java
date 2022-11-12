@@ -33,7 +33,10 @@ public class SpinnerActivity extends AppCompatActivity {
                     updateMainScreen(AdminActivity.class);
                     break;
                 case "Instructor":
-                    updateMainScreen(WelcomeActivity.class);
+                    updateMainScreen(WelcomeActivity.class); // to be changed
+                    break;
+                case "Student":
+                    updateMainScreen(WelcomeActivity.class); // to be changed
                     break;
             }
         });

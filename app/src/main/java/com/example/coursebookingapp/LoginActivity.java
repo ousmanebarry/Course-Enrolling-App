@@ -59,7 +59,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    public boolean fieldsFilled(){
+        EditText[] editTexts = {emailField, passwordField};
+
+        for (EditText editText : editTexts) {
+            if (editText.getText().toString().isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private void signInWithEmailPassword(String email, String password) {
+        if (!fieldsFilled()) {
+            toast("Empty fields");
+            return;
+        }
+
         Task<AuthResult> taskAuth = auth.signIn(email, password);
         OnCompleteListener<AuthResult> listener = this::onSignInComplete;
         taskAuth.addOnCompleteListener(LoginActivity.this, listener);

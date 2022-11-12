@@ -118,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void updateScreenWelcome() {
-        Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SpinnerActivity.class);
         startActivity(intent);
         finish();
     }

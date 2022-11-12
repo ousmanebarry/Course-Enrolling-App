@@ -39,7 +39,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         nameField = findViewById(R.id.registerName);
         emailField = findViewById(R.id.registerEmail);
         passwordField = findViewById(R.id.registerPassword);
-        registerBtn = findViewById(R.id.registerBtn);
+        registerBtn = findViewById(R.id.loginBtn);
         loginBtn = findViewById(R.id.loginBtn);
         isInstructor = findViewById(R.id.isInstructor);
         isStudent = findViewById(R.id.isStudent);
@@ -51,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         int id = v.getId();
 
-        if (id == R.id.registerBtn) {
+        if (id == R.id.loginBtn) {
             email = emailField.getText().toString();
             password = passwordField.getText().toString();
             signUpWithEmailPassword(email, password);

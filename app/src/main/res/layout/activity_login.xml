@@ -23,7 +23,7 @@
         app:lineHeight="35sp" />
 
     <EditText
-        android:id="@+id/loginPassword"
+        android:id="@+id/registerEmail"
         android:layout_width="311dp"
         android:layout_height="45dp"
         android:ems="10"
@@ -38,7 +38,7 @@
         app:layout_constraintVertical_bias="0.499" />
 
     <EditText
-        android:id="@+id/loginEmail"
+        android:id="@+id/registerName"
         android:layout_width="311dp"
         android:layout_height="45dp"
         android:ems="10"
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:text="@string/password"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/loginPassword"
+        app:layout_constraintBottom_toTopOf="@+id/registerEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.114"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:text="@string/email"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/loginEmail"
+        app:layout_constraintBottom_toTopOf="@+id/registerName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.106"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,6 +120,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="@+id/textView4"
         app:layout_constraintHorizontal_bias="0.232"
-        app:layout_constraintStart_toStartOf="@+id/textView4" />
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

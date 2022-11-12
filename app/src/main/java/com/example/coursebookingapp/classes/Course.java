@@ -1,13 +1,15 @@
 package com.example.coursebookingapp.classes;
 
 import java.util.HashMap;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Course {
     private String name;
     private String courseCode;
     private String desc;
-    private String day;
-    private String hours;
+    private LocalDate day;
+    private LocalTime hours;
     private int capacity;
     private boolean hasInstructor;
     private String docID;
@@ -19,7 +21,7 @@ public class Course {
         this.hasInstructor = false;
     }
 
-    public Course(String name, String courseCode, String desc, String day, String hours, int capacity) {
+    public Course(String name, String courseCode, String desc, LocalDate day, LocalTime hours, int capacity) {
         this.setName(name);
         this.setCourseCode(courseCode);
         this.setDesc(desc);
@@ -37,8 +39,8 @@ public class Course {
         return courseCode;
     }
     public String getDesc() { return this.desc; }
-    public String getDay() { return this.day; }
-    public String getHours() { return this.hours; }
+    public LocalDate getDay() { return this.day; }
+    public LocalTime getHours() { return this.hours; }
     public int getCapacity() { return this.capacity; }
     public boolean getHasInstructor() { return this.hasInstructor; }
 
@@ -50,23 +52,23 @@ public class Course {
         this.courseCode = courseCode;
     }
     public void setDesc(String desc) { this.desc = desc; }
-    public void setDay(String day) { this.day = day; }
-    public void setHours(String hours) { this.hours = hours; }
+    public void setDay(LocalDate day) { this.day = day; }
+    public void setHours(LocalTime hours) { this.hours = hours; }
     public void setCapacity(int capacity) { this.capacity = capacity; }
     public void setHasInstructor(boolean hasInstructor) { this.hasInstructor = hasInstructor; }
 
     public HashMap<String,Object> getMap(){
         HashMap<String,Object> out = new HashMap<String,Object>();
-        out.put("courseName",name);
-        out.put("courseCode",courseCode);
+        out.put("courseName", name);
+        out.put("courseCode", courseCode);
         return out;
     }
 
     public String getDocID(){
         return getDocID();
     }
+
     public void setDocID(String docID){
         this.docID = docID;
     }
-
 }

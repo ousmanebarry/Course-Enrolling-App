@@ -31,10 +31,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         auth = new Auth();
-        emailField = findViewById(R.id.loginEmail);
-        passwordField = findViewById(R.id.loginPassword);
+        emailField = findViewById(R.id.registerName);
+        passwordField = findViewById(R.id.registerEmail);
         loginBtn = findViewById(R.id.loginBtn);
-        registerBtn = findViewById(R.id.registerBtn);
+        registerBtn = findViewById(R.id.loginBtn);
 
         if (auth.isSignedIn()) { updateScreenWelcome(); }
 
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             email = emailField.getText().toString();
             password = passwordField.getText().toString();
             signInWithEmailPassword(email, password);
-        } else if (id == R.id.registerBtn) {
+        } else if (id == R.id.loginBtn) {
             updateScreenRegister();
         }
     }

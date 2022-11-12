@@ -112,8 +112,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void updateScreenLogin(){
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(intent);
         finish();
     }
 

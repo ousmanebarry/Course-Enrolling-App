@@ -22,6 +22,8 @@ public class Auth {
 
     public void signOut() { auth.signOut(); }
 
+    public FirebaseAuth getInstance() { return this.auth; }
+
     public FirebaseUser getCurrentUser() { return auth.getCurrentUser(); }
 
     public boolean isSignedIn() { return auth.getCurrentUser() != null; }

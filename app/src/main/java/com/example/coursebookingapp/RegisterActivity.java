@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
+import com.example.coursebookingapp.classes.Admin;
 import com.example.coursebookingapp.classes.Instructor;
 import com.example.coursebookingapp.classes.Student;
 import com.example.coursebookingapp.classes.User;
@@ -20,7 +21,11 @@ import com.example.coursebookingapp.database.Store;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     Auth auth;
@@ -100,6 +105,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             store.addUser(newUserInfo, user.getUid());
 
             updateScreenWelcome();
+
         } else {
             toast("An error occurred");
         }
@@ -112,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void updateScreenWelcome() {
-        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
         startActivity(intent);
         finish();
     }

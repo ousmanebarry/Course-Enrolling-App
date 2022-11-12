@@ -12,14 +12,18 @@ import android.widget.Toast;
 import android.widget.Button;
 
 import com.example.coursebookingapp.database.Auth;
+import com.example.coursebookingapp.database.Store;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     Auth auth;
+    Store store;
     String email, password;
     Button loginBtn;
     TextView registerBtn;
@@ -31,6 +35,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         auth = new Auth();
+        store = new Store();
         emailField = findViewById(R.id.registerName);
         passwordField = findViewById(R.id.registerEmail);
         loginBtn = findViewById(R.id.loginBtn);
@@ -75,7 +80,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void updateScreenWelcome() {
-        Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SpinnerActivity.class);
         startActivity(intent);
         finish();
     }

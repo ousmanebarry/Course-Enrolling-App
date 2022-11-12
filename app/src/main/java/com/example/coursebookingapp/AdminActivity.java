@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Objects;
 
@@ -27,12 +28,21 @@ public class AdminActivity extends AppCompatActivity {
         auth = new Auth();
         store = new Store();
         String uuid = auth.getCurrentUser().getUid();
-        welcomeTxt = findViewById(R.id.welcomeTxt);
 
+        welcomeTxt = findViewById(R.id.welcomeTxt);
         logoutBtn = findViewById(R.id.logOutBtn);
 
         store.getUserDocument(uuid).addOnSuccessListener(documentSnapshot -> {
             welcomeTxt.setText(String.format("Welcome, %s! (%s)", documentSnapshot.get("name"), documentSnapshot.get("accountType")));
+        });
+
+        store.getAllCourses().addOnSuccessListener(query -> {
+            for (DocumentSnapshot snapshot : query) {
+                String name = Objects.requireNonNull(snapshot.get("name")).toString();
+                String code = Objects.requireNonNull(snapshot.get("code")).toString();
+
+                // Create RecyclerView here
+            }
         });
 
         logoutBtn.setOnClickListener(view -> {

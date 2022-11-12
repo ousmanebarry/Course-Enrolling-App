@@ -2,9 +2,11 @@ package com.example.coursebookingapp.database;
 
 import com.example.coursebookingapp.classes.User;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class Store {
 
@@ -29,6 +31,15 @@ public class Store {
 
     public Task<DocumentSnapshot> getCourseDocument(String uuid) {
         return store.collection(COURSE_PATH).document(uuid).get();
+    }
+
+    public Task<QuerySnapshot> getAllCourses() {
+        return store.collection(COURSE_PATH).get();
+    }
+
+    public Task<QuerySnapshot> getInstructorCourses(String uuid) {
+        CollectionReference col = store.collection(COURSE_PATH);
+        return col.whereEqualTo("hasInstructor", true).whereEqualTo("instructorId", uuid).get();
     }
 
 

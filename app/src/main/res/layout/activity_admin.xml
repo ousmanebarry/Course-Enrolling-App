@@ -58,4 +58,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.25" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mRecyclerView"
+        android:layout_width="409dp"
+        android:layout_height="444dp"
+        app:layout_constraintBottom_toTopOf="@+id/logOutBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,7 @@ public class Course {
     private String desc;
     private LocalDate day;
     private LocalTime hours;
-    private int capacity;
+    private String capacity;
     private boolean hasInstructor;
     private String docID;
 
@@ -28,7 +28,15 @@ public class Course {
         this.hasInstructor = false;
     }
 
-    public Course(String name, String courseCode, String desc, LocalDate day, LocalTime hours, int capacity) {
+    public Course(String name, String courseCode, String docID, String capacity){
+        this.setName(name);
+        this.setCode(courseCode);
+        this.setDocID(docID);
+        this.setCapacity(capacity);
+        this.hasInstructor = true;
+    }
+
+    public Course(String name, String courseCode, String desc, LocalDate day, LocalTime hours, String capacity) {
         this.setName(name);
         this.setCode(courseCode);
         this.setDesc(desc);
@@ -48,7 +56,7 @@ public class Course {
     public String getDesc() { return this.desc; }
     public LocalDate getDay() { return this.day; }
     public LocalTime getHours() { return this.hours; }
-    public int getCapacity() { return this.capacity; }
+    public String getCapacity() { return this.capacity; }
     public boolean getHasInstructor() { return this.hasInstructor; }
 
 
@@ -61,7 +69,7 @@ public class Course {
     public void setDesc(String desc) { this.desc = desc; }
     public void setDay(LocalDate day) { this.day = day; }
     public void setHours(LocalTime hours) { this.hours = hours; }
-    public void setCapacity(int capacity) { this.capacity = capacity; }
+    public void setCapacity(String capacity) { this.capacity = capacity; }
     public void setHasInstructor(boolean hasInstructor) { this.hasInstructor = hasInstructor; }
 
     public HashMap<String,Object> getMap(){

@@ -6,15 +6,23 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.coursebookingapp.classes.Course;
 import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
+import com.google.firebase.firestore.DocumentSnapshot;
 
-public class InstructorActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Objects;
+
+public class InstructorActivity extends AppCompatActivity implements InstructorRecyclerViewInterface {
     Auth auth;
     Store store;
     TextView welcomeTxt;
     Button logoutBtn;
+    ArrayList<Course> courseModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +49,47 @@ public class InstructorActivity extends AppCompatActivity {
         loadCourses();
     }
 
+    @Override
+    public void onViewClick(int position) {
+
+    }
+
+    @Override
+    public void onEditClick(int position) {
+
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+
+    }
+
     private void loadCourses() {
+        RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
+        courseModels = new ArrayList<>();
+
+        store.getInstructorCourses(auth.getCurrentUser().getUid()).addOnSuccessListener(query -> {
+            for (DocumentSnapshot snapshot : query) {
+                String docID = Objects.requireNonNull(snapshot.getId());
+                String name = Objects.requireNonNull(snapshot.get("name")).toString();
+                String code = Objects.requireNonNull(snapshot.get("code")).toString();
+                String capacity = Objects.requireNonNull(snapshot.get("capacity")).toString();
+                Course adminCourseModel = new Course(name, code, docID, capacity);
+                courseModels.add(adminCourseModel);
+            }
+
+            InstructorCourseRecyclerViewAdapter adapter = new InstructorCourseRecyclerViewAdapter(this, courseModels, InstructorActivity.this);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        });
+
+
     }
 
     private void updateScreen() {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }
+
+
 }

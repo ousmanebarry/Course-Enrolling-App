@@ -20,7 +20,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class AdminActivity extends AppCompatActivity implements RecyclerViewInterface {
+public class AdminActivity extends AppCompatActivity implements AdminRecyclerViewInterface {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
 
@@ -174,7 +174,7 @@ public class AdminActivity extends AppCompatActivity implements RecyclerViewInte
                 courseModels.add(adminCourseModel);
             }
 
-            CourseRecyclerViewAdapter adapter = new CourseRecyclerViewAdapter(this, courseModels, AdminActivity.this);
+            AdminCourseRecyclerViewAdapter adapter = new AdminCourseRecyclerViewAdapter(this, courseModels, AdminActivity.this);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

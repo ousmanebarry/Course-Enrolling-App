@@ -14,28 +14,28 @@ import com.example.coursebookingapp.classes.Course;
 
 import java.util.ArrayList;
 
-public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecyclerViewAdapter.MyViewHolder> {
-    private final RecyclerViewInterface recyclerViewInterface;
+public class AdminCourseRecyclerViewAdapter extends RecyclerView.Adapter<AdminCourseRecyclerViewAdapter.MyViewHolder> {
+    private final AdminRecyclerViewInterface adminRecyclerViewInterface;
 
     Context context;
     ArrayList<Course> courseModel;
 
-    public CourseRecyclerViewAdapter(Context context, ArrayList<Course> courseModel, RecyclerViewInterface recyclerViewInterface) {
+    public AdminCourseRecyclerViewAdapter(Context context, ArrayList<Course> courseModel, AdminRecyclerViewInterface adminRecyclerViewInterface) {
         this.context = context;
         this.courseModel = courseModel;
-        this.recyclerViewInterface = recyclerViewInterface;
+        this.adminRecyclerViewInterface = adminRecyclerViewInterface;
     }
 
     @NonNull
     @Override
-    public CourseRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdminCourseRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.course_view_row, parent, false);
-        return new CourseRecyclerViewAdapter.MyViewHolder(view, courseModel, recyclerViewInterface);
+        return new AdminCourseRecyclerViewAdapter.MyViewHolder(view, courseModel, adminRecyclerViewInterface);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CourseRecyclerViewAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdminCourseRecyclerViewAdapter.MyViewHolder holder, int position) {
         holder.courseCode.setText(courseModel.get(position).getCode());
         holder.courseName.setText(courseModel.get(position).getName());
     }
@@ -49,7 +49,7 @@ public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecycl
         TextView courseCode, courseName;
         Button editButton, deleteButton;
 
-        public MyViewHolder(@NonNull View itemView, ArrayList<Course> courseModel, RecyclerViewInterface recyclerViewInterface) {
+        public MyViewHolder(@NonNull View itemView, ArrayList<Course> courseModel, AdminRecyclerViewInterface adminRecyclerViewInterface) {
             super(itemView);
             courseCode = itemView.findViewById(R.id.courseCode);
             courseName  = itemView.findViewById(R.id.courseName);
@@ -57,22 +57,22 @@ public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecycl
             deleteButton = itemView.findViewById(R.id.deleteCourse);
 
             editButton.setOnClickListener(view -> {
-                if (recyclerViewInterface != null) {
+                if (adminRecyclerViewInterface != null) {
                     int pos = getAdapterPosition();
 
                     if(pos != RecyclerView.NO_POSITION) {
-                        recyclerViewInterface.onEditClick(pos);
+                        adminRecyclerViewInterface.onEditClick(pos);
                     }
                 }
 
             });
 
             deleteButton.setOnClickListener(view -> {
-                if (recyclerViewInterface != null) {
+                if (adminRecyclerViewInterface != null) {
                     int pos = getAdapterPosition();
 
                     if(pos != RecyclerView.NO_POSITION) {
-                        recyclerViewInterface.onDeleteClick(pos);
+                        adminRecyclerViewInterface.onDeleteClick(pos);
                     }
                 }
 

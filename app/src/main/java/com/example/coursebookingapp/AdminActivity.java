@@ -28,7 +28,7 @@ public class AdminActivity extends AppCompatActivity implements RecyclerViewInte
 
     Auth auth;
     Store store;
-    TextView welcomeTxt, addSaveBtn, addCancelBtn, editSaveBtn, editCancelBtn;
+    TextView welcomeTxt, addSaveBtn, addCancelBtn, editSaveBtn, editCancelBtn, deleteYesBtn, deleteCancelBtn, deleteText;
     EditText addCourseName, addCourseCode, editCourseName, editCourseCode, deleteEmail;
     Button logoutBtn, addCourseBtn, deleteUserBtn;
     ArrayList<Course> courseModels = new ArrayList<>();
@@ -134,9 +134,31 @@ public class AdminActivity extends AppCompatActivity implements RecyclerViewInte
 
     @Override
     public void onDeleteClick(int position) {
-        String docID = courseModels.get(position).getDocID();
-        store.deleteCourse(docID);
-        loadCourses();
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View deleteCoursePopupView = getLayoutInflater().inflate(R.layout.admin_delete_course_popup, null);
+
+        deleteText = deleteCoursePopupView.findViewById(R.id.deleteText);
+        deleteYesBtn = deleteCoursePopupView.findViewById(R.id.yesBtn);
+        deleteCancelBtn = deleteCoursePopupView.findViewById(R.id.cancelBtn);
+
+        deleteText.setText(getString(R.string.course_delete_confirmation_admin, courseModels.get(position).getCode()));
+
+        dialogBuilder.setView(deleteCoursePopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        deleteYesBtn.setOnClickListener(view -> {
+            String docID = courseModels.get(position).getDocID();
+            store.deleteCourse(docID);
+            dialog.dismiss();
+            loadCourses();
+        });
+
+        deleteCancelBtn.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
+
+
    }
 
     private void loadCourses() {

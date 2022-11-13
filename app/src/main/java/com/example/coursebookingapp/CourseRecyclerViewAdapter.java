@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,13 +15,15 @@ import com.example.coursebookingapp.classes.Course;
 import java.util.ArrayList;
 
 public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecyclerViewAdapter.MyViewHolder> {
+    private final RecyclerViewInterface recyclerViewInterface;
 
     Context context;
-    ArrayList<Course> adminCourseModels;
+    ArrayList<Course> courseModel;
 
-    public CourseRecyclerViewAdapter(Context context, ArrayList<Course> adminCourseModels) {
+    public CourseRecyclerViewAdapter(Context context, ArrayList<Course> courseModel, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
-        this.adminCourseModels = adminCourseModels;
+        this.courseModel = courseModel;
+        this.recyclerViewInterface = recyclerViewInterface;
     }
 
     @NonNull
@@ -28,28 +31,54 @@ public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecycl
     public CourseRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.course_view_row, parent, false);
-        return new CourseRecyclerViewAdapter.MyViewHolder(view);
+        return new CourseRecyclerViewAdapter.MyViewHolder(view, courseModel, recyclerViewInterface);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CourseRecyclerViewAdapter.MyViewHolder holder, int position) {
-        holder.courseCode.setText(adminCourseModels.get(position).getCode());
-        holder.courseName.setText(adminCourseModels.get(position).getName());
+        holder.courseCode.setText(courseModel.get(position).getCode());
+        holder.courseName.setText(courseModel.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return adminCourseModels.size();
+        return courseModel.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView courseCode, courseName;
+        Button editButton, deleteButton;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, ArrayList<Course> courseModel, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
-
             courseCode = itemView.findViewById(R.id.courseCode);
             courseName  = itemView.findViewById(R.id.courseName);
+            editButton = itemView.findViewById(R.id.editCourse);
+            deleteButton = itemView.findViewById(R.id.deleteCourse);
+
+            editButton.setOnClickListener(view -> {
+                if (recyclerViewInterface != null) {
+                    int pos = getAdapterPosition();
+
+                    if(pos != RecyclerView.NO_POSITION) {
+                        recyclerViewInterface.onEditClick(pos);
+                    }
+                }
+
+            });
+
+            deleteButton.setOnClickListener(view -> {
+                if (recyclerViewInterface != null) {
+                    int pos = getAdapterPosition();
+
+                    if(pos != RecyclerView.NO_POSITION) {
+                        recyclerViewInterface.onDeleteClick(pos);
+                    }
+                }
+
+            });
+
+
         }
     }
 }

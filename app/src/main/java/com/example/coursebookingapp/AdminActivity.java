@@ -17,11 +17,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class AdminActivity extends AppCompatActivity {
+public class AdminActivity extends AppCompatActivity implements RecyclerViewInterface {
     TextView welcomeTxt;
     Auth auth;
     Store store;
-    Button logoutBtn, addCourse;
+    Button logoutBtn;
+    ArrayList<Course> courseModels = new ArrayList<>();
 
 
     @Override
@@ -58,19 +59,37 @@ public class AdminActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
 
         store.getAllCourses().addOnSuccessListener(query -> {
-            ArrayList<Course> courseModels = new ArrayList<>();
 
             for (DocumentSnapshot snapshot : query) {
+                String docID = Objects.requireNonNull(snapshot.getId());
                 String name = Objects.requireNonNull(snapshot.get("name")).toString();
                 String code = Objects.requireNonNull(snapshot.get("code")).toString();
-                Course adminCourseModel = new Course(name, code);
+                Course adminCourseModel = new Course(name, code, docID);
                 courseModels.add(adminCourseModel);
             }
 
-            CourseRecyclerViewAdapter adapter = new CourseRecyclerViewAdapter(this, courseModels);
+            CourseRecyclerViewAdapter adapter = new CourseRecyclerViewAdapter(this, courseModels, AdminActivity.this);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         });
+    }
+
+    @Override
+    public void onEditClick(int position) {
+        String code = courseModels.get(position).getCode();
+        String name = courseModels.get(position).getName();
+        String docID = courseModels.get(position).getDocID();
+        System.out.println(code);
+        System.out.println(name);
+        System.out.println(docID);
+    }
+
+    @Override
+    public void onDeleteClick(int position) {
+        String code = courseModels.get(position).getCode();
+        String name = courseModels.get(position).getName();
+        System.out.println(code);
+        System.out.println(name);
     }
 }

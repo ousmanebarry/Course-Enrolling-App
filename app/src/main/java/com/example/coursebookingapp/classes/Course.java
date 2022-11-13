@@ -21,6 +21,12 @@ public class Course {
         this.hasInstructor = false;
     }
 
+    public Course(String name, String courseCode, String docID){
+        this.setName(name);
+        this.setCode(courseCode);
+        this.hasInstructor = false;
+    }
+
     public Course(String name, String courseCode, String desc, LocalDate day, LocalTime hours, int capacity) {
         this.setName(name);
         this.setCode(courseCode);
@@ -65,7 +71,7 @@ public class Course {
     }
 
     public String getDocID(){
-        return getDocID();
+        return this.docID;
     }
 
     public void setDocID(String docID){

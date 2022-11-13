@@ -42,8 +42,11 @@ public class Store {
         return col.whereEqualTo("hasInstructor", true).whereEqualTo("instructorId", uuid).get();
     }
 
-
     public void deleteCourse(String docID) {
         store.collection(COURSE_PATH).document(docID).delete();
+    }
+
+    public void deleteUser(String uuid) {
+        store.collection(USER_PATH).document(uuid).delete();
     }
 }

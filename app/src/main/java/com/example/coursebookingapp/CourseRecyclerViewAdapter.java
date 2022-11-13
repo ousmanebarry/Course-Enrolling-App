@@ -9,16 +9,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.coursebookingapp.models.AdminCourseModel;
+import com.example.coursebookingapp.classes.Course;
 
 import java.util.ArrayList;
 
 public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecyclerViewAdapter.MyViewHolder> {
 
     Context context;
-    ArrayList<AdminCourseModel> adminCourseModels;
+    ArrayList<Course> adminCourseModels;
 
-    public CourseRecyclerViewAdapter(Context context, ArrayList<AdminCourseModel> adminCourseModels) {
+    public CourseRecyclerViewAdapter(Context context, ArrayList<Course> adminCourseModels) {
         this.context = context;
         this.adminCourseModels = adminCourseModels;
     }
@@ -33,8 +33,8 @@ public class CourseRecyclerViewAdapter extends RecyclerView.Adapter<CourseRecycl
 
     @Override
     public void onBindViewHolder(@NonNull CourseRecyclerViewAdapter.MyViewHolder holder, int position) {
-        holder.courseCode.setText(adminCourseModels.get(position).getCourseCode());
-        holder.courseName.setText(adminCourseModels.get(position).getCourseName());
+        holder.courseCode.setText(adminCourseModels.get(position).getCode());
+        holder.courseName.setText(adminCourseModels.get(position).getName());
     }
 
     @Override

@@ -17,13 +17,13 @@ public class Course {
 
     public Course(String name, String courseCode){
         this.setName(name);
-        this.setCourseCode(courseCode);
+        this.setCode(courseCode);
         this.hasInstructor = false;
     }
 
     public Course(String name, String courseCode, String desc, LocalDate day, LocalTime hours, int capacity) {
         this.setName(name);
-        this.setCourseCode(courseCode);
+        this.setCode(courseCode);
         this.setDesc(desc);
         this.setDay(day);
         this.setHours(hours);
@@ -35,7 +35,7 @@ public class Course {
     public String getName() {
         return name;
     }
-    public String getCourseCode() {
+    public String getCode() {
         return courseCode;
     }
     public String getDesc() { return this.desc; }
@@ -48,7 +48,7 @@ public class Course {
     public void setName(String name) {
         this.name = name;
     }
-    public void setCourseCode(String courseCode) {
+    public void setCode(String courseCode) {
         this.courseCode = courseCode;
     }
     public void setDesc(String desc) { this.desc = desc; }

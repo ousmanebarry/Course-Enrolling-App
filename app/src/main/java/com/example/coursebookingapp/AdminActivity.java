@@ -9,9 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.coursebookingapp.classes.Course;
 import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
-import com.example.coursebookingapp.models.AdminCourseModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class AdminActivity extends AppCompatActivity {
     TextView welcomeTxt;
     Auth auth;
     Store store;
-    Button logoutBtn;
+    Button logoutBtn, addCourse;
 
 
     @Override
@@ -33,7 +33,6 @@ public class AdminActivity extends AppCompatActivity {
         store = new Store();
         String uuid = auth.getCurrentUser().getUid();
 
-        RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
         welcomeTxt = findViewById(R.id.welcomeTxt);
         logoutBtn = findViewById(R.id.logOutBtn);
 
@@ -41,21 +40,7 @@ public class AdminActivity extends AppCompatActivity {
             welcomeTxt.setText(String.format("Welcome, %s! (%s)", documentSnapshot.get("name"), documentSnapshot.get("accountType")));
         });
 
-        store.getAllCourses().addOnSuccessListener(query -> {
-            ArrayList<AdminCourseModel> courseModels = new ArrayList<>();
-
-            for (DocumentSnapshot snapshot : query) {
-                String name = Objects.requireNonNull(snapshot.get("name")).toString();
-                String code = Objects.requireNonNull(snapshot.get("code")).toString();
-                AdminCourseModel adminCourseModel = new AdminCourseModel(name, code);
-                courseModels.add(adminCourseModel);
-            }
-
-            CourseRecyclerViewAdapter adapter = new CourseRecyclerViewAdapter(this, courseModels);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        });
+        loadCourses();
 
         logoutBtn.setOnClickListener(view -> {
             auth.signOut();
@@ -67,5 +52,25 @@ public class AdminActivity extends AppCompatActivity {
     private void updateScreen(Class<?> next) {
         Intent intent = new Intent(getApplicationContext(), next);
         startActivity(intent);
+    }
+
+    private void loadCourses() {
+        RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
+
+        store.getAllCourses().addOnSuccessListener(query -> {
+            ArrayList<Course> courseModels = new ArrayList<>();
+
+            for (DocumentSnapshot snapshot : query) {
+                String name = Objects.requireNonNull(snapshot.get("name")).toString();
+                String code = Objects.requireNonNull(snapshot.get("code")).toString();
+                Course adminCourseModel = new Course(name, code);
+                courseModels.add(adminCourseModel);
+            }
+
+            CourseRecyclerViewAdapter adapter = new CourseRecyclerViewAdapter(this, courseModels);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        });
     }
 }

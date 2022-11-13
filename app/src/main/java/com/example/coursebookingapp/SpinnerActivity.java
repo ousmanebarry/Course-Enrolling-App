@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.coursebookingapp.classes.Admin;
 import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
 
@@ -33,10 +32,10 @@ public class SpinnerActivity extends AppCompatActivity {
                     updateMainScreen(AdminActivity.class);
                     break;
                 case "Instructor":
-                    updateMainScreen(WelcomeActivity.class); // to be changed
+                    updateMainScreen(InstructorActivity.class); // to be changed
                     break;
                 case "Student":
-                    updateMainScreen(WelcomeActivity.class); // to be changed
+                    updateMainScreen(StudentActivity.class); // to be changed
                     break;
             }
         });

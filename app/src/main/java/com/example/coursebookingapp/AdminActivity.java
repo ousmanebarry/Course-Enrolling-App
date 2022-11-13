@@ -2,7 +2,6 @@ package com.example.coursebookingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,7 +61,7 @@ public class AdminActivity extends AppCompatActivity implements RecyclerViewInte
 
         logoutBtn.setOnClickListener(view -> {
             auth.signOut();
-            updateScreen(LoginActivity.class);
+            updateScreen();
             finish();
         });
 
@@ -182,8 +181,8 @@ public class AdminActivity extends AppCompatActivity implements RecyclerViewInte
         });
     }
 
-    private void updateScreen(Class<?> next) {
-        Intent intent = new Intent(getApplicationContext(), next);
+    private void updateScreen() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }
 }

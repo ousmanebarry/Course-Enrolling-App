@@ -81,7 +81,13 @@ public class AdminActivity extends AppCompatActivity implements RecyclerViewInte
         dialog = dialogBuilder.create();
         dialog.show();
 
-        addSaveBtn.setOnClickListener(view -> {});
+
+        addSaveBtn.setOnClickListener(view -> {
+            Course course = new Course(addCourseName.getText().toString(), addCourseCode.getText().toString());
+            store.addCourse(course);
+            dialog.dismiss();
+            loadCourses();
+        });
 
         addCancelBtn.setOnClickListener(view -> {
             dialog.dismiss();

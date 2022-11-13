@@ -1,5 +1,6 @@
 package com.example.coursebookingapp.database;
 
+import com.example.coursebookingapp.classes.Course;
 import com.example.coursebookingapp.classes.User;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -23,6 +24,11 @@ public class Store {
     public void addUser(User user, String uuid) {
         DocumentReference df = store.collection(USER_PATH).document(uuid);
         df.set(user.getMap());
+    }
+
+    public void addCourse(Course course) {
+        CollectionReference df = store.collection(COURSE_PATH);
+        df.add(course.getMap());
     }
 
     public Task<DocumentSnapshot> getUserDocument(String uuid) {

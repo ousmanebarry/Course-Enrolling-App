@@ -66,8 +66,8 @@ public class Course {
 
     public HashMap<String,Object> getMap(){
         HashMap<String,Object> out = new HashMap<String,Object>();
-        out.put("courseName", name);
-        out.put("courseCode", courseCode);
+        out.put("name", name);
+        out.put("code", courseCode);
         return out;
     }
 
@@ -78,4 +78,5 @@ public class Course {
     public void setDocID(String docID){
         this.docID = docID;
     }
+
 }

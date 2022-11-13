@@ -43,4 +43,7 @@ public class Store {
     }
 
 
+    public void deleteCourse(String docID) {
+        store.collection(COURSE_PATH).document(docID).delete();
+    }
 }

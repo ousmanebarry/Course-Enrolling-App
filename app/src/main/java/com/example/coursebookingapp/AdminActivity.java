@@ -57,6 +57,7 @@ public class AdminActivity extends AppCompatActivity implements RecyclerViewInte
 
     private void loadCourses() {
         RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
+        courseModels = new ArrayList<>();
 
         store.getAllCourses().addOnSuccessListener(query -> {
 
@@ -87,9 +88,8 @@ public class AdminActivity extends AppCompatActivity implements RecyclerViewInte
 
     @Override
     public void onDeleteClick(int position) {
-        String code = courseModels.get(position).getCode();
-        String name = courseModels.get(position).getName();
-        System.out.println(code);
-        System.out.println(name);
-    }
+        String docID = courseModels.get(position).getDocID();
+        store.deleteCourse(docID);
+        loadCourses();
+   }
 }

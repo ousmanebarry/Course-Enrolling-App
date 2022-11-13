@@ -24,6 +24,7 @@ public class Course {
     public Course(String name, String courseCode, String docID){
         this.setName(name);
         this.setCode(courseCode);
+        this.setDocID(docID);
         this.hasInstructor = false;
     }
 

@@ -48,6 +48,11 @@ public class Store {
         return col.whereEqualTo("hasInstructor", true).whereEqualTo("instructorId", uuid).get();
     }
 
+    public void editCourse(String docId, String name, String code) {
+        CollectionReference col = store.collection(COURSE_PATH);
+        col.document(docId).update("name", name, "code", code);
+    }
+
     public void deleteCourse(String docID) {
         store.collection(COURSE_PATH).document(docID).delete();
     }

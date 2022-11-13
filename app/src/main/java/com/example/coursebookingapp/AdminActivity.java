@@ -2,6 +2,7 @@ package com.example.coursebookingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +28,7 @@ public class AdminActivity extends AppCompatActivity implements RecyclerViewInte
 
     Auth auth;
     Store store;
-    TextView welcomeTxt, addSaveBtn, addCancelBtn;
+    TextView welcomeTxt, addSaveBtn, addCancelBtn, editSaveBtn, editCancelBtn;
     EditText addCourseName, addCourseCode, editCourseName, editCourseCode, deleteEmail;
     Button logoutBtn, addCourseBtn, deleteUserBtn;
     ArrayList<Course> courseModels = new ArrayList<>();
@@ -96,12 +97,39 @@ public class AdminActivity extends AppCompatActivity implements RecyclerViewInte
 
     @Override
     public void onEditClick(int position) {
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View editCoursePopupView = getLayoutInflater().inflate(R.layout.admin_edit_course_popup, null);
+
+
         String code = courseModels.get(position).getCode();
         String name = courseModels.get(position).getName();
         String docID = courseModels.get(position).getDocID();
-        System.out.println(code);
-        System.out.println(name);
-        System.out.println(docID);
+
+        editCourseName = editCoursePopupView.findViewById(R.id.courseName);
+        editCourseCode = editCoursePopupView.findViewById(R.id.courseCode);
+        editSaveBtn = editCoursePopupView.findViewById(R.id.saveBtn);
+        editCancelBtn = editCoursePopupView.findViewById(R.id.cancelBtn);
+
+        editCourseName.setText(name);
+        editCourseCode.setText(code);
+
+        dialogBuilder.setView(editCoursePopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        editSaveBtn.setOnClickListener(view -> {
+            String nameField = editCourseName.getText().toString();
+            String codeField = editCourseCode.getText().toString();
+
+            store.editCourse(docID, nameField, codeField);
+            dialog.dismiss();
+            loadCourses();
+        });
+
+        editCancelBtn.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
+
     }
 
     @Override

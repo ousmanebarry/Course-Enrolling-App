@@ -36,16 +36,6 @@ public class Course {
         this.hasInstructor = true;
     }
 
-    public Course(String name, String courseCode, String desc, LocalDate day, LocalTime hours, String capacity) {
-        this.setName(name);
-        this.setCode(courseCode);
-        this.setDesc(desc);
-        this.setDay(day);
-        this.setHours(hours);
-        this.setCapacity(capacity);
-        this.hasInstructor = true;
-    }
-
 
     public String getName() {
         return name;
@@ -76,6 +66,7 @@ public class Course {
         HashMap<String,Object> out = new HashMap<String,Object>();
         out.put("name", name);
         out.put("code", courseCode);
+        out.put("hasInstructor", hasInstructor);
         return out;
     }
 

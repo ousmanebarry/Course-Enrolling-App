@@ -86,12 +86,14 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
                 // change hasInstructor to true
                 // set instructorId
 
+                String instructorId = auth.getCurrentUser().getUid();
                 String docId = docIds.get(spinner.getSelectedItemPosition());
                 String capacity = teachCourseCapacity.getText().toString();
                 String desc = teachCourseDesc.getText().toString();
                 String hours = teachCourseHours.getText().toString();
                 String days = teachCourseDays.getText().toString();
 
+                store.assignTeacher(docId, capacity, desc, hours, days, instructorId);
 
                 dialog.dismiss();
                 loadCourses();

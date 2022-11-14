@@ -9,6 +9,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
+
 public class Store {
 
     private final String USER_PATH;
@@ -46,6 +48,21 @@ public class Store {
     public Task<QuerySnapshot> getUnassignedCourses() {
         CollectionReference col = store.collection(COURSE_PATH);
         return col.whereEqualTo("hasInstructor", false).get();
+    }
+
+    public void assignTeacher(String docId, String capacity, String desc, String hours, String days, String uuid) {
+        CollectionReference col = store.collection(COURSE_PATH);
+        col.document(docId).update("hasInstructor", true);
+
+        HashMap<String, Object> courseData = new HashMap<>();
+
+        courseData.put("instructorId", uuid);
+        courseData.put("capacity", capacity);
+        courseData.put("description", desc);
+        courseData.put("hours", hours);
+        courseData.put("days", days);
+
+        col.document(docId).update(courseData);
     }
 
     public Task<QuerySnapshot> getInstructorCourses(String uuid) {

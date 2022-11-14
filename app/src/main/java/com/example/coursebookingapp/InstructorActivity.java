@@ -129,7 +129,7 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
     @Override
     public void onDeleteClick(int position) {
         // logic to unassign a course from the currently signed in instructor
-        // remove day, hours, hasInstructor == false, description, capacity, instructorId
+        // remove day, hours, set hasInstructor back to false, description, capacity, instructorId
 
     }
 

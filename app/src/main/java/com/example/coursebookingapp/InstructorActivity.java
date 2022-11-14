@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
     Auth auth;
     Store store;
     TextView welcomeTxt, teachPickBtn, teachCancelBtn;
+    EditText teachCourseDays, teachCourseHours, teachCourseDesc, teachCourseCapacity;
     Spinner spinner;
     Button logoutBtn, teachBtn;
     ArrayList<Course> courseModels = new ArrayList<>();
@@ -53,16 +55,23 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
             // logic to assign a course to instructor by searching all the available courses that
             // are not already assigned to an instructor
             ArrayList<String> courses = new ArrayList<>();
+            ArrayList<String> docIds = new ArrayList<>();
+
             dialogBuilder = new AlertDialog.Builder(this);
             final View pickCoursePopupView = getLayoutInflater().inflate(R.layout.instructor_teach_course_popup, null);
 
+            teachCourseDays = pickCoursePopupView.findViewById(R.id.courseDays);
+            teachCourseHours = pickCoursePopupView.findViewById(R.id.courseHours);
+            teachCourseDesc = pickCoursePopupView.findViewById(R.id.courseDesc);
+            teachCourseCapacity = pickCoursePopupView.findViewById(R.id.courseCapacity);
             teachPickBtn = pickCoursePopupView.findViewById(R.id.pickBtn);
             teachCancelBtn = pickCoursePopupView.findViewById(R.id.cancelBtn);
             spinner = pickCoursePopupView.findViewById(R.id.spinner);
 
             store.getUnassignedCourses().addOnSuccessListener(query -> {
                 for (DocumentSnapshot snapshot : query) {
-                    courses.add(snapshot.get("code").toString());
+                    courses.add(Objects.requireNonNull(snapshot.get("code")).toString());
+                    docIds.add(snapshot.getId());
                 }
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, courses);
@@ -74,8 +83,16 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
             dialog.show();
 
             teachPickBtn.setOnClickListener(v -> {
-                String courseCode = spinner.getSelectedItem().toString();
-                System.out.println();
+                // change hasInstructor to true
+                // set instructorId
+
+                String docId = docIds.get(spinner.getSelectedItemPosition());
+                String capacity = teachCourseCapacity.getText().toString();
+                String desc = teachCourseDesc.getText().toString();
+                String hours = teachCourseHours.getText().toString();
+                String days = teachCourseDays.getText().toString();
+
+
                 dialog.dismiss();
                 loadCourses();
             });

@@ -2,9 +2,13 @@ package com.example.coursebookingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,9 +22,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class InstructorActivity extends AppCompatActivity implements InstructorRecyclerViewInterface {
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+
     Auth auth;
     Store store;
-    TextView welcomeTxt;
+    TextView welcomeTxt, teachPickBtn, teachCancelBtn;
+    Spinner spinner;
     Button logoutBtn, teachBtn;
     ArrayList<Course> courseModels = new ArrayList<>();
 
@@ -44,6 +52,38 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
         teachBtn.setOnClickListener(view -> {
             // logic to assign a course to instructor by searching all the available courses that
             // are not already assigned to an instructor
+            ArrayList<String> courses = new ArrayList<>();
+            dialogBuilder = new AlertDialog.Builder(this);
+            final View pickCoursePopupView = getLayoutInflater().inflate(R.layout.instructor_teach_course_popup, null);
+
+            teachPickBtn = pickCoursePopupView.findViewById(R.id.pickBtn);
+            teachCancelBtn = pickCoursePopupView.findViewById(R.id.cancelBtn);
+            spinner = pickCoursePopupView.findViewById(R.id.spinner);
+
+            store.getUnassignedCourses().addOnSuccessListener(query -> {
+                for (DocumentSnapshot snapshot : query) {
+                    courses.add(snapshot.get("code").toString());
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, courses);
+                spinner.setAdapter(adapter);
+            });
+
+            dialogBuilder.setView(pickCoursePopupView);
+            dialog = dialogBuilder.create();
+            dialog.show();
+
+            teachPickBtn.setOnClickListener(v -> {
+                String courseCode = spinner.getSelectedItem().toString();
+                System.out.println();
+                dialog.dismiss();
+                loadCourses();
+            });
+
+            teachCancelBtn.setOnClickListener(v -> {
+                dialog.dismiss();
+            });
+
         });
 
         logoutBtn.setOnClickListener(view -> {
@@ -71,6 +111,7 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
     public void onDeleteClick(int position) {
         // logic to unassign a course from the currently signed in instructor
         // remove day, hours, hasInstructor == false, description, capacity, instructorId
+
     }
 
     private void loadCourses() {

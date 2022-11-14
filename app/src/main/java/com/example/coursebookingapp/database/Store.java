@@ -43,6 +43,11 @@ public class Store {
         return store.collection(COURSE_PATH).get();
     }
 
+    public Task<QuerySnapshot> getUnassignedCourses() {
+        CollectionReference col = store.collection(COURSE_PATH);
+        return col.whereEqualTo("hasInstructor", false).get();
+    }
+
     public Task<QuerySnapshot> getInstructorCourses(String uuid) {
         CollectionReference col = store.collection(COURSE_PATH);
         return col.whereEqualTo("hasInstructor", true).whereEqualTo("instructorId", uuid).get();

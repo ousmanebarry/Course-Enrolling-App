@@ -56,7 +56,7 @@ public class AdminActivity extends AppCompatActivity implements AdminRecyclerVie
         });
 
         deleteUserBtn.setOnClickListener(view -> {
-
+            // to be redone later, need to use firebase auth admin to delete users
         });
 
         logoutBtn.setOnClickListener(view -> {

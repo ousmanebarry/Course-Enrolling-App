@@ -11,16 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/course_code" />
+        android:layout_marginTop="20sp"
+        android:textSize="20dp"
+        android:text="@string/course_code"
+        android:textStyle="bold"
+        android:textColor="#000000" />
 
     <TextView
         android:id="@+id/instr_edit_name_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Course Title" />
+        android:layout_marginTop="5dp"
+        android:text="Course Title"
+        android:textColor="#000000" />
 
     <TextView
         android:id="@+id/textView13"
@@ -32,7 +36,7 @@
 
     <EditText
         android:id="@+id/instr_edit_days"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:ems="10"
@@ -49,7 +53,7 @@
 
     <EditText
         android:id="@+id/instr_edit_hours"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:ems="10"
@@ -66,7 +70,7 @@
 
     <EditText
         android:id="@+id/instr_edit_capacity"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:ems="10"
@@ -83,7 +87,7 @@
 
     <EditText
         android:id="@+id/instr_edit_description"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:ems="10"

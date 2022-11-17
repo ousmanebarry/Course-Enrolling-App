@@ -36,7 +36,7 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
 
     Auth auth;
     Store store;
-    TextView welcomeTxt, teachPickBtn, teachCancelBtn,teachEditBtn;
+    TextView welcomeTxt, teachPickBtn, teachCancelBtn,teachEditBtn, deleteText, deleteYesBtn, deleteCancelBtn;
     EditText teachCourseDays, teachCourseHours, teachCourseDesc, teachCourseCapacity;
     Spinner spinner;
     Button logoutBtn, teachBtn;
@@ -223,10 +223,35 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
         // logic to unassign a course from the currently signed in instructor
         // remove day, hours, set hasInstructor back to false, description, capacity, instructorId
 
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View deleteCoursePopupView = getLayoutInflater().inflate(R.layout.instructor_delete_course_popup, null);
         String id = courseModels.get(position).getDocID();
 
-        store.unassignCourse(id);
-        updateScreen();
+        deleteText = deleteCoursePopupView.findViewById(R.id.deleteText);
+        deleteYesBtn = deleteCoursePopupView.findViewById(R.id.yesBtn);
+        deleteCancelBtn = deleteCoursePopupView.findViewById(R.id.cancelBtn);
+
+        deleteText.setText(getString(R.string.course_unassign_confirmation_instructor, courseModels.get(position).getCode()));
+
+        dialogBuilder.setView(deleteCoursePopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        deleteYesBtn.setOnClickListener(view -> {
+            String name = courseModels.get(position).getName();
+            String code = courseModels.get(position).getCode();
+            Course course = new Course(name, code);
+
+            store.unassignCourse(id, course);
+            dialog.dismiss();
+            loadCourses();
+        });
+
+        deleteCancelBtn.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
+
+        loadCourses();
 
     }
 

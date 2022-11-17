@@ -71,16 +71,9 @@ public class Store {
         return col.whereEqualTo("hasInstructor", true).whereEqualTo("instructorId", uuid).get();
     }
 
-    public void unassignCourse(String docID){
-        CollectionReference col = store.collection(COURSE_PATH);
-        col.document(docID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                //create new course without info, update the ID
-                Course blank = new Course((String)documentSnapshot.get("name"), (String)documentSnapshot.get("code"));
-                col.document(docID).set(blank.getMap());
-            }
-        });
+    public void unassignCourse(String docID, Course course){
+        DocumentReference df = store.collection(COURSE_PATH).document(docID);
+        df.set(course.getMap());
     }
 
     public void editCourse(String docId, String name, String code) {

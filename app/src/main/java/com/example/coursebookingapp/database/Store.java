@@ -2,6 +2,7 @@ package com.example.coursebookingapp.database;
 
 import com.example.coursebookingapp.classes.Course;
 import com.example.coursebookingapp.classes.User;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -70,6 +71,18 @@ public class Store {
         return col.whereEqualTo("hasInstructor", true).whereEqualTo("instructorId", uuid).get();
     }
 
+    public void unassignCourse(String docID){
+        CollectionReference col = store.collection(COURSE_PATH);
+        col.document(docID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                //create new course without info, update the ID
+                Course blank = new Course((String)documentSnapshot.get("name"), (String)documentSnapshot.get("code"));
+                col.document(docID).set(blank.getMap());
+            }
+        });
+    }
+
     public void editCourse(String docId, String name, String code) {
         CollectionReference col = store.collection(COURSE_PATH);
         col.document(docId).update("name", name, "code", code);
@@ -77,6 +90,11 @@ public class Store {
 
     public void deleteCourse(String docID) {
         store.collection(COURSE_PATH).document(docID).delete();
+    }
+
+    public void updateCourse(String ID, HashMap data){
+        CollectionReference col = store.collection(COURSE_PATH);
+        col.document(ID).update(data);
     }
 
     public void deleteUser(String uuid) {

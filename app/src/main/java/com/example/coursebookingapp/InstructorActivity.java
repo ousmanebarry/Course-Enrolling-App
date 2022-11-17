@@ -2,6 +2,7 @@ package com.example.coursebookingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,9 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.coursebookingapp.classes.Course;
 import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class InstructorActivity extends AppCompatActivity implements InstructorRecyclerViewInterface {
@@ -28,7 +31,7 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
 
     Auth auth;
     Store store;
-    TextView welcomeTxt, teachPickBtn, teachCancelBtn;
+    TextView welcomeTxt, teachPickBtn, teachCancelBtn,teachEditBtn;
     EditText teachCourseDays, teachCourseHours, teachCourseDesc, teachCourseCapacity;
     Spinner spinner;
     Button logoutBtn, teachBtn;
@@ -122,14 +125,71 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
 
     @Override
     public void onEditClick(int position) {
-        // logic to edit the course information
-        // day, hours, course description, capacity
+        try {
+            // logic to edit the course information
+            // day, hours, course description, capacity
+            Course c = courseModels.get(position);
+            store.getCourseDocument(c.getDocID()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot doc) {
+                    dialogBuilder = new AlertDialog.Builder(InstructorActivity.this);
+                    final View pickCoursePopupView = getLayoutInflater().inflate(R.layout.instructor_edit_course_popup, null);
+
+
+
+                    ((TextView) pickCoursePopupView.findViewById(R.id.instr_edit_code_title)).setText(c.getCode());
+                    ((TextView) pickCoursePopupView.findViewById(R.id.instr_edit_name_title)).setText(c.getName());
+
+                    teachCourseDays = pickCoursePopupView.findViewById(R.id.instr_edit_days);
+                    teachCourseHours = pickCoursePopupView.findViewById(R.id.instr_edit_hours);
+                    teachCourseDesc = pickCoursePopupView.findViewById(R.id.instr_edit_description);
+                    teachCourseCapacity = pickCoursePopupView.findViewById(R.id.instr_edit_capacity);
+                    teachEditBtn = pickCoursePopupView.findViewById(R.id.instr_edit_EDIT_btn);
+                    teachCancelBtn = pickCoursePopupView.findViewById(R.id.instr_edit_cancel_btn);
+
+                    teachCourseDays.setText(doc.get("days").toString());
+                    teachCourseHours.setText(doc.get("hours").toString());
+                    teachCourseDesc.setText(doc.get("description").toString());
+                    teachCourseCapacity.setText(doc.get("capacity").toString());
+
+                    dialogBuilder.setView(pickCoursePopupView);
+                    dialog = dialogBuilder.create();
+                    dialog.show();
+
+                    teachEditBtn.setOnClickListener(view -> {
+                        HashMap<String, Object> data = new HashMap<>();
+                        data.put("days", teachCourseDays.getText().toString());
+                        data.put("hours", teachCourseHours.getText().toString());
+                        data.put("description", teachCourseDesc.getText().toString());
+                        data.put("capacity", teachCourseCapacity.getText().toString());
+                        store.updateCourse(c.getDocID(), data);
+
+                        dialog.dismiss();
+                        loadCourses();
+                    });
+
+                    teachCancelBtn.setOnClickListener(view -> {
+                        dialog.dismiss();
+                        loadCourses();
+                    });
+                }
+            });
+
+
+        }catch(Exception e){
+            Log.d("EXEPTIONS",e.toString());
+        }
     }
 
     @Override
     public void onDeleteClick(int position) {
         // logic to unassign a course from the currently signed in instructor
         // remove day, hours, set hasInstructor back to false, description, capacity, instructorId
+
+        String id = courseModels.get(position).getDocID();
+
+        store.unassignCourse(id);
+        updateScreen();
 
     }
 

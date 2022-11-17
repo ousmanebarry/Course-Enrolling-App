@@ -22,6 +22,8 @@ import com.example.coursebookingapp.database.Store;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -37,6 +39,7 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
     Auth auth;
     Store store;
     TextView welcomeTxt, teachPickBtn, teachCancelBtn,teachEditBtn, deleteText, deleteYesBtn, deleteCancelBtn;
+    TextView viewCourseName, viewCourseCode, viewCourseDays, viewCourseHours, viewCourseCapacity, viewCourseDesc, viewCancel;
     EditText teachCourseDays, teachCourseHours, teachCourseDesc, teachCourseCapacity;
     Spinner spinner;
     Button logoutBtn, teachBtn;
@@ -139,6 +142,36 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
     public void onViewClick(int position) {
         // logic to show the course information
         // day, hours, course code, course name, course description
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View viewCoursePopupView = getLayoutInflater().inflate(R.layout.instructor_view_course_popup, null);
+        String id = courseModels.get(position).getDocID();
+
+        viewCourseName = viewCoursePopupView.findViewById(R.id.courseName) ;
+        viewCourseCode = viewCoursePopupView.findViewById(R.id.courseCode);
+        viewCourseDays = viewCoursePopupView.findViewById(R.id.courseDays);
+        viewCourseHours = viewCoursePopupView.findViewById(R.id.courseHours);
+        viewCourseCapacity = viewCoursePopupView.findViewById(R.id.courseCapacity);
+        viewCourseDesc = viewCoursePopupView.findViewById(R.id.courseDesc);
+        viewCancel = viewCoursePopupView.findViewById(R.id.viewCancel);
+
+        store.getCourseDocument(id).addOnSuccessListener(snapshot -> {
+           viewCourseName.setText(Objects.requireNonNull(snapshot.get("name")).toString());
+           viewCourseCode.setText(Objects.requireNonNull(snapshot.get("code")).toString());
+           viewCourseDays.setText(Objects.requireNonNull(snapshot.get("days")).toString());
+           viewCourseHours.setText(Objects.requireNonNull(snapshot.get("hours")).toString());
+           viewCourseCapacity.setText(Objects.requireNonNull(snapshot.get("capacity")).toString());
+           viewCourseDesc.setText(Objects.requireNonNull(snapshot.get("description")).toString());
+        });
+
+
+        dialogBuilder.setView(viewCoursePopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        viewCancel.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+
     }
 
     @Override

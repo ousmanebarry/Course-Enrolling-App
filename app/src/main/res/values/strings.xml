@@ -11,7 +11,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="course_delete_confirmation_admin">Are you sure you want to delete course %1$s?</string>
-    <string name="course_unassign_confirmation_instructor">Are you sure you want to unassign yourself from teaching %1$s?</string>
+    <string name="course_unassign_confirmation_instructor">Are you sure you want to remove yourself from teaching %1$s?</string>
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>

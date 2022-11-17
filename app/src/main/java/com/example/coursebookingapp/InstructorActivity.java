@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +29,10 @@ import java.util.Objects;
 public class InstructorActivity extends AppCompatActivity implements InstructorRecyclerViewInterface {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
+
+    private final String CAP_REGEX = "^[0-9]*$";
+    private final String HOUR_REGEX = "([01]?[0-9]|2[0-3]):[0-5][0-9]-([01]?[0-9]|2[0-3]):[0-5][0-9]";
+    private  final String DAY_REGEX = "((Mon|Tue|Wed|Thu|Fri|Sat|Sun)(,|-)?)+";
 
     Auth auth;
     Store store;
@@ -96,6 +101,19 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
                 String hours = teachCourseHours.getText().toString();
                 String days = teachCourseDays.getText().toString();
 
+                if(!days.matches(DAY_REGEX)){
+                    Toast.makeText(InstructorActivity.this,"Invalid Days, enter days in three-letter format)",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!hours.matches(HOUR_REGEX)){
+                    Toast.makeText(InstructorActivity.this,"Invalid Hours, enter range (HH:mm-HH:mm)",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!capacity.matches(CAP_REGEX)){
+                    Toast.makeText(InstructorActivity.this,"Invalid Capacity Number",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 store.assignTeacher(docId, capacity, desc, hours, days, instructorId);
 
                 dialog.dismiss();
@@ -158,9 +176,28 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
 
                     teachEditBtn.setOnClickListener(view -> {
                         HashMap<String, Object> data = new HashMap<>();
+                        //sure only days are entered
+                        if(!teachCourseDays.getText().toString().matches(DAY_REGEX)){
+                            Toast.makeText(InstructorActivity.this,"Invalid Days, enter days in three-letter format)",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         data.put("days", teachCourseDays.getText().toString());
+
+                        //ensure only time is entered
+                        if(!teachCourseHours.getText().toString().matches(HOUR_REGEX)){
+                            Toast.makeText(InstructorActivity.this,"Invalid Hours, enter range (HH:mm-HH:mm)",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         data.put("hours", teachCourseHours.getText().toString());
+
+
                         data.put("description", teachCourseDesc.getText().toString());
+
+                        //check capacity
+                        if(!teachCourseCapacity.getText().toString().matches(CAP_REGEX)){
+                            Toast.makeText(InstructorActivity.this,"Invalid Capacity Number",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         data.put("capacity", teachCourseCapacity.getText().toString());
                         store.updateCourse(c.getDocID(), data);
 
@@ -177,7 +214,7 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
 
 
         }catch(Exception e){
-            Log.d("EXEPTIONS",e.toString());
+
         }
     }
 

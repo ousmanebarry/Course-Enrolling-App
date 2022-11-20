@@ -8,6 +8,9 @@
         android:layout_width="351dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:cardPreventCornerOverlap="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,12 +20,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/rounded_black_border"
-            android:minHeight="100sp">
-
+            android:minHeight="120sp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp">
 
             <TextView
                 android:id="@+id/courseCode"
-                android:layout_width="260sp"
+                android:layout_width="230sp"
                 android:layout_height="wrap_content"
                 android:text="@string/course_code"
                 android:textColor="@color/black"
@@ -37,7 +41,7 @@
 
             <TextView
                 android:id="@+id/courseName"
-                android:layout_width="260sp"
+                android:layout_width="230sp"
                 android:layout_height="wrap_content"
                 android:text="@string/course_name"
                 android:textColor="@color/black"

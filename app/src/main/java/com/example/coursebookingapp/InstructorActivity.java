@@ -38,7 +38,7 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
 
     Auth auth;
     Store store;
-    TextView welcomeTxt, teachPickBtn, teachCancelBtn,teachEditBtn, deleteText, deleteYesBtn, deleteCancelBtn;
+    TextView teachPickBtn, teachCancelBtn,teachEditBtn, deleteText, deleteYesBtn, deleteCancelBtn;
     TextView viewCourseName, viewCourseCode, viewCourseDays, viewCourseHours, viewCourseCapacity, viewCourseDesc, viewCancel;
     EditText teachCourseDays, teachCourseHours, teachCourseDesc, teachCourseCapacity;
     Spinner spinner;
@@ -54,12 +54,12 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
         store = new Store();
         String uuid = auth.getCurrentUser().getUid();
 
-        welcomeTxt = findViewById(R.id.welcomeTxt);
         logoutBtn = findViewById(R.id.logOutBtn);
         teachBtn = findViewById(R.id.teachCourse);
 
         store.getUserDocument(uuid).addOnSuccessListener(documentSnapshot -> {
-            welcomeTxt.setText(String.format("Welcome, %s! (%s)", documentSnapshot.get("name"), documentSnapshot.get("accountType")));
+            String welcome = String.format("Welcome, %s! (%s)", documentSnapshot.get("name"), documentSnapshot.get("accountType"));
+            Objects.requireNonNull(getSupportActionBar()).setTitle(welcome);
         });
 
         teachBtn.setOnClickListener(view -> {

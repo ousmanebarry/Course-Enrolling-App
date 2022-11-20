@@ -21,7 +21,8 @@
         </activity>
         <activity
             android:name=".SpinnerActivity"
-            android:exported="false" >
+            android:exported="false"
+            android:theme="@style/Theme.CourseBooking.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

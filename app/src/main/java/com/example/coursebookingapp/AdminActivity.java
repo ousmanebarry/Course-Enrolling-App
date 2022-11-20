@@ -27,7 +27,7 @@ public class AdminActivity extends AppCompatActivity implements AdminRecyclerVie
 
     Auth auth;
     Store store;
-    TextView welcomeTxt, addSaveBtn, addCancelBtn, editSaveBtn, editCancelBtn, deleteYesBtn, deleteCancelBtn, deleteText;
+    TextView addSaveBtn, addCancelBtn, editSaveBtn, editCancelBtn, deleteYesBtn, deleteCancelBtn, deleteText;
     EditText addCourseName, addCourseCode, editCourseName, editCourseCode, deleteEmail;
     Button logoutBtn, addCourseBtn, deleteUserBtn;
     ArrayList<Course> courseModels = new ArrayList<>();
@@ -42,13 +42,13 @@ public class AdminActivity extends AppCompatActivity implements AdminRecyclerVie
         store = new Store();
         String uuid = auth.getCurrentUser().getUid();
 
-        welcomeTxt = findViewById(R.id.welcomeTxt);
         logoutBtn = findViewById(R.id.logOutBtn);
         addCourseBtn = findViewById(R.id.addCourse);
         deleteUserBtn = findViewById(R.id.deleteUser);
 
         store.getUserDocument(uuid).addOnSuccessListener(documentSnapshot -> {
-            welcomeTxt.setText(String.format("Welcome, %s! (%s)", documentSnapshot.get("name"), documentSnapshot.get("accountType")));
+            String welcome = String.format("Welcome, %s! (%s)", documentSnapshot.get("name"), documentSnapshot.get("accountType"));
+            Objects.requireNonNull(getSupportActionBar()).setTitle(welcome);
         });
 
         addCourseBtn.setOnClickListener(view -> {

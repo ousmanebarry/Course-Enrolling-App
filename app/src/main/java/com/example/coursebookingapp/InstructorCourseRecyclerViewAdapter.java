@@ -38,14 +38,14 @@ public class InstructorCourseRecyclerViewAdapter extends RecyclerView.Adapter<In
     public void onBindViewHolder(@NonNull InstructorCourseRecyclerViewAdapter.MyViewHolder holder, int position) {
         holder.courseCode.setText(courseModel.get(position).getCode());
         holder.courseName.setText(courseModel.get(position).getName());
-        // holder.courseCapacity.setText(courseModel.get(position).getCapacity());
+        holder.courseCapacity.setText(courseModel.get(position).getCapacity());
     }
 
     @Override
     public int getItemCount() { return courseModel.size(); }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView courseCode, courseName, courseCapacity;
+        TextView courseCode, courseName, courseCapacity, courseDaysHours, courseDesc;
         Button viewButton, editButton, deleteButton;
 
         public MyViewHolder(@NonNull View itemView, ArrayList<Course> courseModel, InstructorRecyclerViewInterface instructorRecyclerViewInterface) {
@@ -53,7 +53,8 @@ public class InstructorCourseRecyclerViewAdapter extends RecyclerView.Adapter<In
 
             courseCode = itemView.findViewById(R.id.courseCode);
             courseName  = itemView.findViewById(R.id.courseName);
-            // courseCapacity = itemView.findViewById(R.id.courseCapacity);
+            courseCapacity = itemView.findViewById(R.id.courseCapacity);
+
             viewButton = itemView.findViewById(R.id.viewCourse);
             editButton = itemView.findViewById(R.id.editCourse);
             deleteButton = itemView.findViewById(R.id.deleteCourse);

@@ -176,79 +176,71 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
 
     @Override
     public void onEditClick(int position) {
-        try {
-            // logic to edit the course information
-            // day, hours, course description, capacity
-            Course c = courseModels.get(position);
-            store.getCourseDocument(c.getDocID()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot doc) {
-                    dialogBuilder = new AlertDialog.Builder(InstructorActivity.this);
-                    final View pickCoursePopupView = getLayoutInflater().inflate(R.layout.instructor_edit_course_popup, null);
+        Course c = courseModels.get(position);
+        store.getCourseDocument(c.getDocID()).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot doc) {
+                dialogBuilder = new AlertDialog.Builder(InstructorActivity.this);
+                final View pickCoursePopupView = getLayoutInflater().inflate(R.layout.instructor_edit_course_popup, null);
 
 
 
-                    ((TextView) pickCoursePopupView.findViewById(R.id.instr_edit_code_title)).setText(c.getCode());
-                    ((TextView) pickCoursePopupView.findViewById(R.id.instr_edit_name_title)).setText(c.getName());
+                ((TextView) pickCoursePopupView.findViewById(R.id.instr_edit_code_title)).setText(c.getCode());
+                ((TextView) pickCoursePopupView.findViewById(R.id.instr_edit_name_title)).setText(c.getName());
 
-                    teachCourseDays = pickCoursePopupView.findViewById(R.id.instr_edit_days);
-                    teachCourseHours = pickCoursePopupView.findViewById(R.id.instr_edit_hours);
-                    teachCourseDesc = pickCoursePopupView.findViewById(R.id.instr_edit_description);
-                    teachCourseCapacity = pickCoursePopupView.findViewById(R.id.instr_edit_capacity);
-                    teachEditBtn = pickCoursePopupView.findViewById(R.id.instr_edit_EDIT_btn);
-                    teachCancelBtn = pickCoursePopupView.findViewById(R.id.instr_edit_cancel_btn);
+                teachCourseDays = pickCoursePopupView.findViewById(R.id.instr_edit_days);
+                teachCourseHours = pickCoursePopupView.findViewById(R.id.instr_edit_hours);
+                teachCourseDesc = pickCoursePopupView.findViewById(R.id.instr_edit_description);
+                teachCourseCapacity = pickCoursePopupView.findViewById(R.id.instr_edit_capacity);
+                teachEditBtn = pickCoursePopupView.findViewById(R.id.instr_edit_EDIT_btn);
+                teachCancelBtn = pickCoursePopupView.findViewById(R.id.instr_edit_cancel_btn);
 
-                    teachCourseDays.setText(doc.get("days").toString());
-                    teachCourseHours.setText(doc.get("hours").toString());
-                    teachCourseDesc.setText(doc.get("description").toString());
-                    teachCourseCapacity.setText(doc.get("capacity").toString());
+                teachCourseDays.setText(Objects.requireNonNull(doc.get("days")).toString());
+                teachCourseHours.setText(Objects.requireNonNull(doc.get("hours")).toString());
+                teachCourseDesc.setText(Objects.requireNonNull(doc.get("description")).toString());
+                teachCourseCapacity.setText(Objects.requireNonNull(doc.get("capacity")).toString());
 
-                    dialogBuilder.setView(pickCoursePopupView);
-                    dialog = dialogBuilder.create();
-                    dialog.show();
+                dialogBuilder.setView(pickCoursePopupView);
+                dialog = dialogBuilder.create();
+                dialog.show();
 
-                    teachEditBtn.setOnClickListener(view -> {
-                        HashMap<String, Object> data = new HashMap<>();
-                        //sure only days are entered
-                        if(!teachCourseDays.getText().toString().matches(DAY_REGEX)){
-                            Toast.makeText(InstructorActivity.this,"Invalid Days, enter days in three-letter format)",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        data.put("days", teachCourseDays.getText().toString());
+                teachEditBtn.setOnClickListener(view -> {
+                    HashMap<String, Object> data = new HashMap<>();
+                    //sure only days are entered
+                    if(!teachCourseDays.getText().toString().matches(DAY_REGEX)){
+                        Toast.makeText(InstructorActivity.this,"Invalid Days, enter days in three-letter format)",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    data.put("days", teachCourseDays.getText().toString());
 
-                        //ensure only time is entered
-                        if(!teachCourseHours.getText().toString().matches(HOUR_REGEX)){
-                            Toast.makeText(InstructorActivity.this,"Invalid Hours, enter range (HH:mm-HH:mm)",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        data.put("hours", teachCourseHours.getText().toString());
-
-
-                        data.put("description", teachCourseDesc.getText().toString());
-
-                        //check capacity
-                        if(!teachCourseCapacity.getText().toString().matches(CAP_REGEX)){
-                            Toast.makeText(InstructorActivity.this,"Invalid Capacity Number",Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        data.put("capacity", teachCourseCapacity.getText().toString());
-                        store.updateCourse(c.getDocID(), data);
-
-                        dialog.dismiss();
-                        loadCourses();
-                    });
-
-                    teachCancelBtn.setOnClickListener(view -> {
-                        dialog.dismiss();
-                        loadCourses();
-                    });
-                }
-            });
+                    //ensure only time is entered
+                    if(!teachCourseHours.getText().toString().matches(HOUR_REGEX)){
+                        Toast.makeText(InstructorActivity.this,"Invalid Hours, enter range (HH:mm-HH:mm)",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    data.put("hours", teachCourseHours.getText().toString());
 
 
-        }catch(Exception e){
+                    data.put("description", teachCourseDesc.getText().toString());
 
-        }
+                    //check capacity
+                    if(!teachCourseCapacity.getText().toString().matches(CAP_REGEX)){
+                        Toast.makeText(InstructorActivity.this,"Invalid Capacity Number",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    data.put("capacity", teachCourseCapacity.getText().toString());
+                    store.updateCourse(c.getDocID(), data);
+
+                    dialog.dismiss();
+                    loadCourses();
+                });
+
+                teachCancelBtn.setOnClickListener(view -> {
+                    dialog.dismiss();
+                    loadCourses();
+                });
+            }
+        });
     }
 
     @Override
@@ -298,8 +290,9 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
                 String name = Objects.requireNonNull(snapshot.get("name")).toString();
                 String code = Objects.requireNonNull(snapshot.get("code")).toString();
                 String capacity = Objects.requireNonNull(snapshot.get("capacity")).toString();
-                Course adminCourseModel = new Course(name, code, docID, capacity);
-                courseModels.add(adminCourseModel);
+
+                Course instructorCourseModel = new Course(name, code, docID, capacity);
+                courseModels.add(instructorCourseModel);
             }
 
             InstructorCourseRecyclerViewAdapter adapter = new InstructorCourseRecyclerViewAdapter(this, courseModels, InstructorActivity.this);

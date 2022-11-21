@@ -8,8 +8,8 @@ public class Course {
     private String name;
     private String courseCode;
     private String desc;
-    private LocalDate day;
-    private LocalTime hours;
+    private String day;
+    private String hours;
     private String capacity;
     private boolean hasInstructor;
     private String docID;
@@ -44,8 +44,8 @@ public class Course {
         return courseCode;
     }
     public String getDesc() { return this.desc; }
-    public LocalDate getDay() { return this.day; }
-    public LocalTime getHours() { return this.hours; }
+    public String getDay() { return this.day; }
+    public String getHours() { return this.hours; }
     public String getCapacity() { return this.capacity; }
     public boolean getHasInstructor() { return this.hasInstructor; }
 
@@ -57,8 +57,8 @@ public class Course {
         this.courseCode = courseCode;
     }
     public void setDesc(String desc) { this.desc = desc; }
-    public void setDay(LocalDate day) { this.day = day; }
-    public void setHours(LocalTime hours) { this.hours = hours; }
+    public void setDay(String day) { this.day = day; }
+    public void setHours(String hours) { this.hours = hours; }
     public void setCapacity(String capacity) { this.capacity = capacity; }
     public void setHasInstructor(boolean hasInstructor) { this.hasInstructor = hasInstructor; }
 

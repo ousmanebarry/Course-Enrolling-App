@@ -2,12 +2,9 @@ package com.example.coursebookingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +18,6 @@ import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +36,6 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
     TextView teachPickBtn, teachCancelBtn,teachEditBtn, deleteText, deleteYesBtn, deleteCancelBtn;
     TextView viewCourseName, viewCourseCode, viewCourseDays, viewCourseHours, viewCourseCapacity, viewCourseDesc, viewCancel;
     EditText teachCourseDays, teachCourseHours, teachCourseDesc, teachCourseCapacity;
-    Spinner spinner;
     Button logoutBtn, teachBtn;
     ArrayList<Course> courseModels = new ArrayList<>();
 
@@ -63,9 +57,10 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
         });
 
         teachBtn.setOnClickListener(view -> {
-            // logic to assign a course to instructor by searching all the available courses that
-            // are not already assigned to an instructor
-            ArrayList<String> courses = new ArrayList<>();
+            Intent intent = new Intent(getApplicationContext(), InstructorAllActivity.class);
+            startActivity(intent);
+
+            /*ArrayList<String> courses = new ArrayList<>();
             ArrayList<String> docIds = new ArrayList<>();
 
             dialogBuilder = new AlertDialog.Builder(this);
@@ -94,8 +89,6 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
             dialog.show();
 
             teachPickBtn.setOnClickListener(v -> {
-                // change hasInstructor to true
-                // set instructorId
 
                 String instructorId = auth.getCurrentUser().getUid();
                 String docId = docIds.get(spinner.getSelectedItemPosition());
@@ -125,7 +118,7 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
 
             teachCancelBtn.setOnClickListener(v -> {
                 dialog.dismiss();
-            });
+            });*/
 
         });
 

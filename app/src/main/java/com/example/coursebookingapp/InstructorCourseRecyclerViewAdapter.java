@@ -45,7 +45,7 @@ public class InstructorCourseRecyclerViewAdapter extends RecyclerView.Adapter<In
     public int getItemCount() { return courseModel.size(); }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView courseCode, courseName, courseCapacity, courseDaysHours, courseDesc;
+        TextView courseCode, courseName, courseCapacity;
         Button viewButton, editButton, deleteButton;
 
         public MyViewHolder(@NonNull View itemView, ArrayList<Course> courseModel, InstructorRecyclerViewInterface instructorRecyclerViewInterface) {

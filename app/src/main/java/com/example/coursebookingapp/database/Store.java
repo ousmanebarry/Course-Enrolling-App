@@ -66,6 +66,11 @@ public class Store {
         col.document(docId).update(courseData);
     }
 
+    public Task<QuerySnapshot> getCoursesByNameOrCode(String nameOrCode) {
+        return store.collection(COURSE_PATH).whereEqualTo("name", nameOrCode).get();
+
+    }
+
     public Task<QuerySnapshot> getInstructorCourses(String uuid) {
         CollectionReference col = store.collection(COURSE_PATH);
         return col.whereEqualTo("hasInstructor", true).whereEqualTo("instructorId", uuid).get();

@@ -24,6 +24,8 @@ public class InstructorAllActivity extends AppCompatActivity implements Instruct
     Store store;
     Auth auth;
 
+    // https://developer.android.com/develop/ui/views/search/training/setup#java
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

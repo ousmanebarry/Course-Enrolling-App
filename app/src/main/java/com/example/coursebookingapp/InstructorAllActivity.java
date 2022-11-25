@@ -37,7 +37,8 @@ public class InstructorAllActivity extends AppCompatActivity implements Instruct
     private final String HOUR_REGEX = "([01]?[0-9]|2[0-3]):[0-5][0-9]-([01]?[0-9]|2[0-3]):[0-5][0-9]";
     private  final String DAY_REGEX = "((Mon|Tue|Wed|Thu|Fri|Sat|Sun)(,|-)?)+";
 
-    TextView teachPickBtn, teachCancelBtn, teachCourseName, teachCourseCode;
+    TextView teachPickBtn, teachCancelBtn, teachCourseName, teachCourseCode, viewCourseName, viewCourseCode,
+            viewCourseDays, viewCourseHours, viewCourseCapacity, viewCourseDesc, viewCancel, viewInstructorName;
     EditText teachCourseDays, teachCourseHours, teachCourseDesc, teachCourseCapacity;
 
 
@@ -85,7 +86,36 @@ public class InstructorAllActivity extends AppCompatActivity implements Instruct
 
     @Override
     public void onViewClick(int position) {
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View viewCoursePopupView = getLayoutInflater().inflate(R.layout.instructor_all_view_course_popup, null);
+        String id = courseModels.get(position).getDocID();
 
+        viewCourseName = viewCoursePopupView.findViewById(R.id.courseName) ;
+        viewCourseCode = viewCoursePopupView.findViewById(R.id.courseCode);
+        viewInstructorName = viewCoursePopupView.findViewById(R.id.instructorName);
+        viewCourseDays = viewCoursePopupView.findViewById(R.id.courseDays);
+        viewCourseHours = viewCoursePopupView.findViewById(R.id.courseHours);
+        viewCourseCapacity = viewCoursePopupView.findViewById(R.id.courseCapacity);
+        viewCourseDesc = viewCoursePopupView.findViewById(R.id.courseDesc);
+        viewCancel = viewCoursePopupView.findViewById(R.id.viewCancel);
+
+        store.getCourseDocument(id).addOnSuccessListener(snapshot -> {
+            viewCourseName.setText(snapshot.get("name").toString());
+            viewCourseCode.setText(snapshot.get("code").toString());
+            viewCourseDays.setText(snapshot.get("days").toString());
+            viewCourseHours.setText(snapshot.get("hours").toString());
+            viewCourseCapacity.setText(snapshot.get("capacity").toString());
+            viewCourseDesc.setText(snapshot.get("description").toString());
+        });
+
+
+        dialogBuilder.setView(viewCoursePopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        viewCancel.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
     }
 
     @Override

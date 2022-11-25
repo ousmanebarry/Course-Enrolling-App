@@ -6,6 +6,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -39,8 +40,6 @@ public class InstructorAllActivity extends AppCompatActivity implements Instruct
     TextView teachPickBtn, teachCancelBtn, teachCourseName, teachCourseCode;
     EditText teachCourseDays, teachCourseHours, teachCourseDesc, teachCourseCapacity;
 
-
-    // https://developer.android.com/develop/ui/views/search/training/setup#java
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +75,8 @@ public class InstructorAllActivity extends AppCompatActivity implements Instruct
         });
 
         backBtn.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
             finish();
         });
 
@@ -120,7 +121,7 @@ public class InstructorAllActivity extends AppCompatActivity implements Instruct
             teachPickBtn.setOnClickListener(v -> {
 
                 String instructorId = auth.getCurrentUser().getUid();
-                String docId = "";
+                String docId = courseModels.get(position).getDocID();
                 String capacity = teachCourseCapacity.getText().toString();
                 String desc = teachCourseDesc.getText().toString();
                 String hours = teachCourseHours.getText().toString();
@@ -142,7 +143,10 @@ public class InstructorAllActivity extends AppCompatActivity implements Instruct
                 store.assignTeacher(docId, capacity, desc, hours, days, instructorId);
 
                 dialog.dismiss();
-                loadCourses();
+
+                String code = courseModels.get(position).getCode();
+
+                Toast.makeText(InstructorAllActivity.this,code + " has been added",Toast.LENGTH_SHORT).show();
             });
 
             teachCancelBtn.setOnClickListener(v -> {

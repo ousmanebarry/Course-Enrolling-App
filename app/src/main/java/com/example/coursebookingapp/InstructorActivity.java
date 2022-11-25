@@ -1,5 +1,7 @@
 package com.example.coursebookingapp;
 
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,7 +38,7 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
 
     Auth auth;
     Store store;
-    TextView teachPickBtn, teachCancelBtn,teachEditBtn, deleteText, deleteYesBtn, deleteCancelBtn;
+    TextView teachCancelBtn,teachEditBtn, deleteText, deleteYesBtn, deleteCancelBtn;
     TextView viewCourseName, viewCourseCode, viewCourseDays, viewCourseHours, viewCourseCapacity, viewCourseDesc, viewCancel;
     EditText teachCourseDays, teachCourseHours, teachCourseDesc, teachCourseCapacity;
     Button logoutBtn, teachBtn;
@@ -50,6 +55,7 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
 
         logoutBtn = findViewById(R.id.logOutBtn);
         teachBtn = findViewById(R.id.teachCourse);
+        ActivityResultLauncher<Intent> teachCourseActivityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), this::onActivityResult);
 
         store.getUserDocument(uuid).addOnSuccessListener(documentSnapshot -> {
             String welcome = String.format("Welcome, %s! (%s)", documentSnapshot.get("name"), documentSnapshot.get("accountType"));
@@ -58,68 +64,7 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
 
         teachBtn.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), InstructorAllActivity.class);
-            startActivity(intent);
-
-            /*ArrayList<String> courses = new ArrayList<>();
-            ArrayList<String> docIds = new ArrayList<>();
-
-            dialogBuilder = new AlertDialog.Builder(this);
-            final View pickCoursePopupView = getLayoutInflater().inflate(R.layout.instructor_teach_course_popup, null);
-
-            teachCourseDays = pickCoursePopupView.findViewById(R.id.courseDays);
-            teachCourseHours = pickCoursePopupView.findViewById(R.id.courseHours);
-            teachCourseDesc = pickCoursePopupView.findViewById(R.id.courseDesc);
-            teachCourseCapacity = pickCoursePopupView.findViewById(R.id.courseCapacity);
-            teachPickBtn = pickCoursePopupView.findViewById(R.id.pickBtn);
-            teachCancelBtn = pickCoursePopupView.findViewById(R.id.cancelBtn);
-            spinner = pickCoursePopupView.findViewById(R.id.spinner);
-
-            store.getUnassignedCourses().addOnSuccessListener(query -> {
-                for (DocumentSnapshot snapshot : query) {
-                    courses.add(Objects.requireNonNull(snapshot.get("code")).toString());
-                    docIds.add(snapshot.getId());
-                }
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, courses);
-                spinner.setAdapter(adapter);
-            });
-
-            dialogBuilder.setView(pickCoursePopupView);
-            dialog = dialogBuilder.create();
-            dialog.show();
-
-            teachPickBtn.setOnClickListener(v -> {
-
-                String instructorId = auth.getCurrentUser().getUid();
-                String docId = docIds.get(spinner.getSelectedItemPosition());
-                String capacity = teachCourseCapacity.getText().toString();
-                String desc = teachCourseDesc.getText().toString();
-                String hours = teachCourseHours.getText().toString();
-                String days = teachCourseDays.getText().toString();
-
-                if(!days.matches(DAY_REGEX)){
-                    Toast.makeText(InstructorActivity.this,"Invalid Days, enter days in three-letter format)",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(!hours.matches(HOUR_REGEX)){
-                    Toast.makeText(InstructorActivity.this,"Invalid Hours, enter range (HH:mm-HH:mm)",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(!capacity.matches(CAP_REGEX)){
-                    Toast.makeText(InstructorActivity.this,"Invalid Capacity Number",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                store.assignTeacher(docId, capacity, desc, hours, days, instructorId);
-
-                dialog.dismiss();
-                loadCourses();
-            });
-
-            teachCancelBtn.setOnClickListener(v -> {
-                dialog.dismiss();
-            });*/
-
+            teachCourseActivityResultLauncher.launch(intent);
         });
 
         logoutBtn.setOnClickListener(view -> {
@@ -271,6 +216,12 @@ public class InstructorActivity extends AppCompatActivity implements InstructorR
 
         loadCourses();
 
+    }
+
+    public void onActivityResult(ActivityResult result) {
+        if (result.getResultCode() == Activity.RESULT_OK) {
+            loadCourses();
+        }
     }
 
     private void loadCourses() {

@@ -33,6 +33,7 @@ public class InstructorAllActivity extends AppCompatActivity implements Instruct
 
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
+    private RecyclerView recyclerView;
 
     private final String CAP_REGEX = "^[0-9]*$";
     private final String HOUR_REGEX = "([01]?[0-9]|2[0-3]):[0-5][0-9]-([01]?[0-9]|2[0-3]):[0-5][0-9]";
@@ -50,6 +51,7 @@ public class InstructorAllActivity extends AppCompatActivity implements Instruct
 
         store = new Store();
         auth = new Auth();
+        recyclerView = findViewById(R.id.mRecyclerView);
         backBtn = findViewById(R.id.backBtn);
         viewAllBtn = findViewById(R.id.viewAllBtn);
         searchCourses = findViewById(R.id.searchCourses);
@@ -200,7 +202,6 @@ public class InstructorAllActivity extends AppCompatActivity implements Instruct
     }
 
     private void loadCourses() {
-        RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
         courseModels = new ArrayList<>();
 
         store.getAllCourses().addOnSuccessListener(query -> {
@@ -220,7 +221,6 @@ public class InstructorAllActivity extends AppCompatActivity implements Instruct
     }
 
     private void loadCourses(String courseNameCode) {
-        RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
         courseModels = new ArrayList<>();
 
         store.getCoursesByNameOrCode(courseNameCode).addOnSuccessListener(querySnapshots -> {
@@ -231,6 +231,7 @@ public class InstructorAllActivity extends AppCompatActivity implements Instruct
                     String code = Objects.requireNonNull(snapshot.get("code")).toString();
 
                     Course instructorCourseModel = new Course(name, code, docID);
+
                     courseModels.add(instructorCourseModel);
                 }
             }

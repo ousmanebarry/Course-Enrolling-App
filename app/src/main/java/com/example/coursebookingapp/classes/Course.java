@@ -78,4 +78,8 @@ public class Course {
         this.docID = docID;
     }
 
+    public String toString() {
+        return this.name + " "  + this.courseCode;
+    }
+
 }

@@ -39,4 +39,5 @@
     <string name="edit">Edit</string>
     <string name="course_name">Course name</string>
     <string name="course_code">Course code</string>
+    <string name="course_instructor">Course instructor</string>
 </resources>

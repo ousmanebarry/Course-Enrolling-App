@@ -82,4 +82,44 @@ public class Course {
         return this.name + " "  + this.courseCode;
     }
 
+    //convert hours to doubles 0 (inclusive) - 24 (exclusive)
+    //minutes converted to fractions of an hour (:30 = .5)
+    //result[0] is start, result[1] is end
+    public double[] getHoursAsDoubles(){
+        String startStr,endStr;
+        startStr = hours.split("-")[0];
+        endStr = hours.split("-")[1];
+        double start,end;
+
+        //get hours
+        start = Double.parseDouble(startStr.split(":")[0]);
+        end = Double.parseDouble(endStr.split(":")[0]);
+
+        //add minutes
+        start += (Double.parseDouble(startStr.split(":")[1]))/60.0;
+        end += (Double.parseDouble(endStr.split(":")[1]))/60.0;
+
+        double[] out = new double[2];
+        out[0] = start;
+        out[1] = end;
+        return out;
+    }
+
+    public boolean checkIfIntersects(Course other){
+        double[] times,otherTimes;
+        times = getHoursAsDoubles();
+        otherTimes = other.getHoursAsDoubles();
+
+        //check if start or end time is within range
+        if((otherTimes[0] < times[0] && times[0] < otherTimes[1]) || (otherTimes[0] < times[1] && times[1] < otherTimes[1])){
+            return true;
+        }
+
+        //same of other class
+        if((times[0] < otherTimes[0] && otherTimes[0] < times[1]) || (times[0] < otherTimes[1] && otherTimes[1] < times[1])){
+            return  true;
+        }
+        return false;
+    }
+
 }

@@ -4,12 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class StudentActivity extends AppCompatActivity implements StudentRecyclerViewInterface {
+public class StudentAllActivity extends AppCompatActivity implements StudentAllRecyclerViewInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student);
+        setContentView(R.layout.activity_student_all);
     }
 
     @Override
@@ -18,7 +18,7 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
     }
 
     @Override
-    public void onDeleteClick(int position) {
+    public void onEnrollClick(int position) {
 
     }
 }

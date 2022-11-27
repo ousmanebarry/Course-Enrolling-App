@@ -21,6 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Objects;
 
+<<<<<<< HEAD
 public class StudentAllActivity extends AppCompatActivity {
     Button backBtn, viewAllBtn;
     ArrayList<Course> courseModels;
@@ -34,11 +35,18 @@ public class StudentAllActivity extends AppCompatActivity {
 
     TextView studentPick, studentCancel,iewCourseName, viewCourseCode, viewCourseName,
             viewCourseDays, viewCourseHours, viewCourseCapacity, viewCourseDesc, viewCancel, viewInstructorName;
+=======
+public class StudentAllActivity extends AppCompatActivity implements StudentAllRecyclerViewInterface {
+>>>>>>> 1288380791af99c89b21733d3e6d6288717c3467
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_all);
+<<<<<<< HEAD
+=======
+    }
+>>>>>>> 1288380791af99c89b21733d3e6d6288717c3467
 
         store = new Store();
         auth = new Auth();

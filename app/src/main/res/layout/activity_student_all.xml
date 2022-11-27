@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+=======
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+>>>>>>> 1288380791af99c89b21733d3e6d6288717c3467
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -54,6 +59,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.531"
         app:queryHint="Search Courses" />
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1288380791af99c89b21733d3e6d6288717c3467
 
 </androidx.constraintlayout.widget.ConstraintLayout>

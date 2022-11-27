@@ -154,7 +154,7 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
                 courseModels.add(studentCourseModel);
             }
 
-            StudentCourseRecyclerViewAdapter adapter = new InstructorCourseRecyclerViewAdapter(this, courseModels, StudentActivity.this);
+            StudentCourseRecyclerViewAdapter adapter = new StudentCourseRecyclerViewAdapter(this, courseModels, StudentActivity.this);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         });

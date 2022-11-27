@@ -21,7 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class StudentAllActivity extends AppCompatActivity implements StudentAllCourseRecyclerViewAdapter{
+public class StudentAllActivity extends AppCompatActivity implements StudentAllRecyclerViewInterface{
 
     Button backBtn, viewAllBtn;
     ArrayList<Course> courseModels;
@@ -125,6 +125,11 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllC
         });
     }
 
+    @Override
+    public void onEnrollClick(int position){
+
+    }
+
     private void loadCourses() {
         courseModels = new ArrayList<>();
 
@@ -138,7 +143,7 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllC
                 courseModels.add(instructorCourseModel);
             }
 
-            InstructorAllCourseRecyclerViewAdapter adapter = new StudentAllCourseRecyclerViewAdapter(this, courseModels, StudentAllActivity.this);
+            StudentAllCourseRecyclerViewAdapter adapter = new StudentAllCourseRecyclerViewAdapter(this, courseModels, StudentAllActivity.this);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         });
@@ -164,7 +169,7 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllC
             }
 
 
-            StudentAllCourseRecyclerViewAdapter adapter = new InstructorAllCourseRecyclerViewAdapter(this, courseModels, StudentAllActivity.this);
+            StudentAllCourseRecyclerViewAdapter adapter = new StudentAllCourseRecyclerViewAdapter(this, courseModels, StudentAllActivity.this);
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         });

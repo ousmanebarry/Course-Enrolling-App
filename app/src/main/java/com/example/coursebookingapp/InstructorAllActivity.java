@@ -18,6 +18,7 @@ import com.example.coursebookingapp.classes.Course;
 import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -222,15 +223,18 @@ public class InstructorAllActivity extends AppCompatActivity implements Instruct
         RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
         courseModels = new ArrayList<>();
 
-        store.getCoursesByNameOrCode(courseNameCode).addOnSuccessListener(query -> {
-            for (DocumentSnapshot snapshot : query) {
-                String docID = Objects.requireNonNull(snapshot.getId());
-                String name = Objects.requireNonNull(snapshot.get("name")).toString();
-                String code = Objects.requireNonNull(snapshot.get("code")).toString();
+        store.getCoursesByNameOrCode(courseNameCode).addOnSuccessListener(querySnapshots -> {
+            for (QuerySnapshot queryDocumentSnapshots : querySnapshots) {
+                for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
+                    String docID = Objects.requireNonNull(snapshot.getId());
+                    String name = Objects.requireNonNull(snapshot.get("name")).toString();
+                    String code = Objects.requireNonNull(snapshot.get("code")).toString();
 
-                Course instructorCourseModel = new Course(name, code, docID);
-                courseModels.add(instructorCourseModel);
+                    Course instructorCourseModel = new Course(name, code, docID);
+                    courseModels.add(instructorCourseModel);
+                }
             }
+
 
             InstructorAllCourseRecyclerViewAdapter adapter = new InstructorAllCourseRecyclerViewAdapter(this, courseModels, InstructorAllActivity.this);
             recyclerView.setAdapter(adapter);

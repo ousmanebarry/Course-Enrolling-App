@@ -2,8 +2,8 @@ package com.example.coursebookingapp.database;
 
 import com.example.coursebookingapp.classes.Course;
 import com.example.coursebookingapp.classes.User;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class Store {
 
@@ -66,8 +67,12 @@ public class Store {
         col.document(docId).update(courseData);
     }
 
-    public Task<QuerySnapshot> getCoursesByNameOrCode(String nameOrCode) {
-        return store.collection(COURSE_PATH).whereEqualTo("name", nameOrCode).get();
+    public Task<List<QuerySnapshot>> getCoursesByNameOrCode(String nameOrCode) {
+
+        Task<QuerySnapshot> taskOne = store.collection(COURSE_PATH).whereEqualTo("name", nameOrCode).get();
+        Task<QuerySnapshot> taskTwo = store.collection(COURSE_PATH).whereEqualTo("code", nameOrCode).get();
+
+        return Tasks.whenAllSuccess(taskOne, taskTwo);
 
     }
 

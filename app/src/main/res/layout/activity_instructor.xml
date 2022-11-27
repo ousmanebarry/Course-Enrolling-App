@@ -37,9 +37,11 @@
         android:id="@+id/mRecyclerView"
         android:layout_width="351dp"
         android:layout_height="620dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/logOutBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

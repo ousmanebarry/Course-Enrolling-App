@@ -81,6 +81,11 @@ public class Store {
         return col.whereEqualTo("hasInstructor", true).whereEqualTo("instructorId", uuid).get();
     }
 
+    public Task<QuerySnapshot> getStudentCourses(String uuid) {
+        CollectionReference col = store.collection(COURSE_PATH);
+        return col.whereEqualTo("hasStudent", true).whereEqualTo("studentId", uuid).get();
+    }
+
     public void unassignCourse(String docID, Course course){
         DocumentReference df = store.collection(COURSE_PATH).document(docID);
         df.set(course.getMap());

@@ -24,7 +24,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
@@ -35,6 +37,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     Button registerBtn;
     TextView loginBtn;
     RadioButton isInstructor, isStudent;
+
+    List<String> course;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,11 +99,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             User newUserInfo;
             name = nameField.getText().toString();
             FirebaseUser user = auth.getCurrentUser();
+            List<String> course = new ArrayList<>();
 
             if (isInstructor.isChecked()) {
                 newUserInfo = new Instructor(email, name);
             } else {
-                newUserInfo = new Student(email, name);
+                newUserInfo = new Student(email, name, course);
+
             }
 
             store.addUser(newUserInfo, user.getUid());

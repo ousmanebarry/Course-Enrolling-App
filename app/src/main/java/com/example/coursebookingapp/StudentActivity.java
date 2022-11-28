@@ -18,7 +18,10 @@ import android.widget.TextView;
 import com.example.coursebookingapp.classes.Course;
 import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -34,6 +37,9 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
     TextView viewCourseName, viewCourseCode, viewCourseDays, viewCourseHours, viewCourseCapacity, viewCourseDesc, viewCancel;
     Button logoutBtn, enrollBtn;
     ArrayList<Course> courseModels = new ArrayList<>();
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference userRef = db.collection("user");
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -54,7 +60,7 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
         });
 
         enrollBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), StudentActivity.class);
+            Intent intent = new Intent(getApplicationContext(), StudentAllActivity.class);
             studentCourseActivityResultLauncher.launch(intent);
         });
 
@@ -123,6 +129,7 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
             String code = courseModels.get(position).getCode();
 
             dialog.dismiss();
+            deleteCourse();
             loadCourses();
         });
 
@@ -165,6 +172,11 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
     private void updateScreen() {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
+    }
+
+    private void deleteCourse(){
+        String uuid = auth.getCurrentUser().getUid();
+        userRef.document(uuid).update("course", FieldValue.arrayRemove(courseModels.toString()));
     }
 
 }

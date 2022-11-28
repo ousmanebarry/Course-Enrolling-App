@@ -17,7 +17,10 @@ import com.example.coursebookingapp.classes.Course;
 import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -34,6 +37,9 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private RecyclerView recyclerView;
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference userRef = db.collection("user");
 
     private final String CAPACITY_NUM = "0";
 
@@ -156,6 +162,10 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
                 if(capacity.matches(CAPACITY_NUM)) {
                     Toast.makeText(StudentAllActivity.this, "Enrollment failed. Course Capacity is full at this time.", Toast.LENGTH_SHORT).show();
                 };
+
+                addCourse();
+
+
             });
 
         });
@@ -202,5 +212,10 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         });
+    }
+
+    private void addCourse(){
+        String uuid = auth.getCurrentUser().getUid();
+        userRef.document(uuid).update("course", FieldValue.arrayUnion(courseModels.toString()));
     }
 }

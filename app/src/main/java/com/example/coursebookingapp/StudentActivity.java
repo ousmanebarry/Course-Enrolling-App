@@ -89,6 +89,7 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
         dialogBuilder = new AlertDialog.Builder(this);
         final View viewCoursePopupView = getLayoutInflater().inflate(R.layout.student_view_course_popup, null);
         String id = courseModels.get(position).getDocID();
+        String noData = "Unassigned";
 
         viewCourseName = viewCoursePopupView.findViewById(R.id.courseName) ;
         viewCourseCode = viewCoursePopupView.findViewById(R.id.courseCode);
@@ -100,16 +101,23 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
         viewInstructorName = viewCoursePopupView.findViewById(R.id.instructorName);
 
         store.getCourseDocument(id).addOnSuccessListener(snapshot -> {
-            viewCourseName.setText(Objects.requireNonNull(snapshot.get("name")).toString());
-            viewCourseCode.setText(Objects.requireNonNull(snapshot.get("code")).toString());
-            viewCourseDays.setText(Objects.requireNonNull(snapshot.get("days")).toString());
-            viewCourseHours.setText(Objects.requireNonNull(snapshot.get("hours")).toString());
-            viewCourseCapacity.setText(Objects.requireNonNull(snapshot.get("capacity")).toString());
-            viewCourseDesc.setText(Objects.requireNonNull(snapshot.get("description")).toString());
+            viewCourseName.setText(snapshot.get("name") == null ? noData : snapshot.get("name").toString());
+            viewCourseCode.setText(snapshot.get("code") == null ? noData : snapshot.get("code").toString());
+            viewCourseDays.setText(snapshot.get("days") == null ? noData : snapshot.get("days").toString());
+            viewCourseHours.setText(snapshot.get("hours") == null ? noData : snapshot.get("hours").toString());
+            viewCourseCapacity.setText(snapshot.get("capacity") == null ? noData : snapshot.get("capacity").toString());
+            viewCourseDesc.setText(snapshot.get("description") == null ? noData : snapshot.get("description").toString());
 
-            store.getUserDocument(snapshot.get("instructorId").toString()).addOnSuccessListener(snapshotTwo -> {
-                viewInstructorName.setText(snapshotTwo.get("name").toString());
-            });
+            Boolean hasInstructor = snapshot.get("hasInstructor", Boolean.class);
+
+            if (Boolean.TRUE.equals(hasInstructor)) {
+                store.getUserDocument(snapshot.get("instructorId").toString()).addOnSuccessListener(snapshotTwo -> {
+                    viewInstructorName.setText(snapshotTwo.get("name").toString());
+                });
+            } else {
+                viewInstructorName.setText(noData);
+
+            }
         });
 
 
@@ -173,7 +181,7 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
                     String docID = Objects.requireNonNull(queryDocumentSnapshots.getId());
                     String name = Objects.requireNonNull(queryDocumentSnapshots.get("name")).toString();
                     String code = Objects.requireNonNull(queryDocumentSnapshots.get("code")).toString();
-                    String capacity = Objects.requireNonNull(queryDocumentSnapshots.get("capacity")).toString();
+                    String capacity = queryDocumentSnapshots.get("capacity") == null ? "0" : queryDocumentSnapshots.get("capacity").toString();
 
                     Course instructorCourseModel = new Course(name, code, docID, capacity);
 

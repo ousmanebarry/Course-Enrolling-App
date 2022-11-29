@@ -44,7 +44,7 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
     Auth auth;
     Store store;
     TextView deleteText, deleteYesBtn, deleteCancelBtn;
-    TextView viewCourseName, viewCourseCode, viewCourseDays, viewCourseHours, viewCourseCapacity, viewCourseDesc, viewCancel;
+    TextView viewCourseName, viewCourseCode, viewCourseDays, viewCourseHours, viewCourseCapacity, viewCourseDesc, viewCancel, viewInstructorName;
     Button logoutBtn, enrollBtn;
     ArrayList<Course> courseModels = new ArrayList<>();
 
@@ -97,6 +97,7 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
         viewCourseCapacity = viewCoursePopupView.findViewById(R.id.courseCapacity);
         viewCourseDesc = viewCoursePopupView.findViewById(R.id.courseDesc);
         viewCancel = viewCoursePopupView.findViewById(R.id.viewCancel);
+        viewInstructorName = viewCoursePopupView.findViewById(R.id.instructorName);
 
         store.getCourseDocument(id).addOnSuccessListener(snapshot -> {
             viewCourseName.setText(Objects.requireNonNull(snapshot.get("name")).toString());
@@ -105,6 +106,10 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
             viewCourseHours.setText(Objects.requireNonNull(snapshot.get("hours")).toString());
             viewCourseCapacity.setText(Objects.requireNonNull(snapshot.get("capacity")).toString());
             viewCourseDesc.setText(Objects.requireNonNull(snapshot.get("description")).toString());
+
+            store.getUserDocument(snapshot.get("instructorId").toString()).addOnSuccessListener(snapshotTwo -> {
+                viewInstructorName.setText(snapshotTwo.get("name").toString());
+            });
         });
 
 
@@ -135,11 +140,8 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
         dialog.show();
 
         deleteYesBtn.setOnClickListener(view -> {
-            String name = courseModels.get(position).getName();
-            String code = courseModels.get(position).getCode();
-
+            deleteCourse(courseModels.get(position).getDocID());
             dialog.dismiss();
-            deleteCourse(courseModels.get(position).toString());
             loadCourses();
         });
 

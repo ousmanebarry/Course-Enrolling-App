@@ -41,6 +41,22 @@
         android:textSize="18dp" />
 
 
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Instructor name" />
+
+    <TextView
+        android:id="@+id/instructorName"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:textColor="#000000"
+        android:textSize="18dp"/>
 
     <TextView
         android:id="@+id/textView19"

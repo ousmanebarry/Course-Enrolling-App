@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,12 +19,19 @@ import android.widget.TextView;
 import com.example.coursebookingapp.classes.Course;
 import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class StudentActivity extends AppCompatActivity implements StudentRecyclerViewInterface {
@@ -129,7 +137,7 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
             String code = courseModels.get(position).getCode();
 
             dialog.dismiss();
-            deleteCourse();
+            deleteCourse(courseModels.get(position).toString());
             loadCourses();
         });
 
@@ -151,32 +159,30 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
         courseModels = new ArrayList<>();
 
         store.getStudentCourses(auth.getCurrentUser().getUid()).addOnSuccessListener(query -> {
-            for (DocumentSnapshot snapshot : query) {
-                String docID = Objects.requireNonNull(snapshot.getId());
-                String name = Objects.requireNonNull(snapshot.get("name")).toString();
-                String code = Objects.requireNonNull(snapshot.get("code")).toString();
-                String capacity = Objects.requireNonNull(snapshot.get("capacity")).toString();
+                    for (DocumentSnapshot snapshot : query) {
+                        String docID = Objects.requireNonNull(snapshot.getId());
+                        String name = Objects.requireNonNull(snapshot.get("name")).toString();
+                        String code = Objects.requireNonNull(snapshot.get("code")).toString();
+                        String capacity = Objects.requireNonNull(snapshot.get("capacity")).toString();
 
-                Course studentCourseModel = new Course(name, code, docID, capacity);
-                courseModels.add(studentCourseModel);
-            }
+                        Course studentCourseModel = new Course(name, code, docID, capacity);
+                        courseModels.add(studentCourseModel);
+                    }
 
-            StudentCourseRecyclerViewAdapter adapter = new StudentCourseRecyclerViewAdapter(this, courseModels, StudentActivity.this);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                    StudentCourseRecyclerViewAdapter adapter = new StudentCourseRecyclerViewAdapter(this, courseModels, StudentActivity.this);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(this));
         });
-
-
-    }
+    };
 
     private void updateScreen() {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }
 
-    private void deleteCourse(){
+    private void deleteCourse(String position){
         String uuid = auth.getCurrentUser().getUid();
-        userRef.document(uuid).update("course", FieldValue.arrayRemove(courseModels.toString()));
+        userRef.document(uuid).update("course", FieldValue.arrayRemove(position));
     }
 
 }

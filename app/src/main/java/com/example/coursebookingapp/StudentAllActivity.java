@@ -66,7 +66,7 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
             public boolean onQueryTextSubmit(String query) {
                 loadCourses(query);
                 Objects.requireNonNull(getSupportActionBar()).setTitle("Custom Courses");
-                return false;
+                return true;
             }
 
             @Override
@@ -137,6 +137,8 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
 
     @Override
     public void onEnrollClick(int position){
+
+
         store.getCourseDocument(courseModels.get(position).getDocID()).addOnSuccessListener(snapshot -> {
 
             dialogBuilder = new AlertDialog.Builder(this);
@@ -157,15 +159,12 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
             dialog.show();
 
             studentPickBtn.setOnClickListener(v -> {
+                addCourse(courseModels.get(position).getDocID());
+                dialog.dismiss();
+            });
 
-                String capacity = viewCourseCapacity.toString();
-                if(capacity.matches(CAPACITY_NUM)) {
-                    Toast.makeText(StudentAllActivity.this, "Enrollment failed. Course Capacity is full at this time.", Toast.LENGTH_SHORT).show();
-                };
-
-                addCourse();
-
-
+            studentCancelBtn.setOnClickListener(v -> {
+                dialog.dismiss();
             });
 
         });
@@ -175,20 +174,21 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
     private void loadCourses() {
         courseModels = new ArrayList<>();
 
-        store.getAllCourses().addOnSuccessListener(query -> {
-            for (DocumentSnapshot snapshot : query) {
-                String docID = Objects.requireNonNull(snapshot.getId());
-                String name = Objects.requireNonNull(snapshot.get("name")).toString();
-                String code = Objects.requireNonNull(snapshot.get("code")).toString();
-
-                Course instructorCourseModel = new Course(name, code, docID);
-                courseModels.add(instructorCourseModel);
-            }
-
-            StudentAllCourseRecyclerViewAdapter adapter = new StudentAllCourseRecyclerViewAdapter(this, courseModels, StudentAllActivity.this);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        });
+//        store.getAllCourses().addOnSuccessListener(query -> {
+//            for (DocumentSnapshot snapshot : query) {
+//                String docID = Objects.requireNonNull(snapshot.getId());
+//                String name = Objects.requireNonNull(snapshot.get("name")).toString();
+//                String code = Objects.requireNonNull(snapshot.get("code")).toString();
+//
+//                Course instructorCourseModel = new Course(name, code, docID);
+//                courseModels.add(instructorCourseModel);
+//            }
+//
+//            StudentAllCourseRecyclerViewAdapter adapter = new StudentAllCourseRecyclerViewAdapter(this, courseModels, StudentAllActivity.this);
+//            recyclerView.setAdapter(adapter);
+//            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        });
+        
     }
 
     private void loadCourses(String courseNameCode) {
@@ -214,8 +214,8 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
         });
     }
 
-    private void addCourse(){
+    private void addCourse(String position){
         String uuid = auth.getCurrentUser().getUid();
-        userRef.document(uuid).update("course", FieldValue.arrayUnion(courseModels.toString()));
+        userRef.document(uuid).update("course", FieldValue.arrayUnion(position));
     }
 }

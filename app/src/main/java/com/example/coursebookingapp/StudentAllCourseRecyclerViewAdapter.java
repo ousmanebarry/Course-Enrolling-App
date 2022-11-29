@@ -30,7 +30,7 @@ public class StudentAllCourseRecyclerViewAdapter extends RecyclerView.Adapter<St
     @Override
     public StudentAllCourseRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.course_instructor_all_view_row, parent, false);
+        View view = inflater.inflate(R.layout.course_student_all_view_row, parent, false);
         return new StudentAllCourseRecyclerViewAdapter.MyViewHolder(view, courseModel, studentAllRecyclerViewInterface);
     }
 
@@ -54,7 +54,7 @@ public class StudentAllCourseRecyclerViewAdapter extends RecyclerView.Adapter<St
             courseName  = itemView.findViewById(R.id.courseName);
 
             viewButton = itemView.findViewById(R.id.viewCourse);
-            enrollButton = itemView.findViewById(R.id.teachCourse);
+            enrollButton = itemView.findViewById(R.id.enrollCourse);
 
 
             viewButton.setOnClickListener(view -> {

@@ -174,20 +174,20 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
     private void loadCourses() {
         courseModels = new ArrayList<>();
 
-//        store.getAllCourses().addOnSuccessListener(query -> {
-//            for (DocumentSnapshot snapshot : query) {
-//                String docID = Objects.requireNonNull(snapshot.getId());
-//                String name = Objects.requireNonNull(snapshot.get("name")).toString();
-//                String code = Objects.requireNonNull(snapshot.get("code")).toString();
-//
-//                Course instructorCourseModel = new Course(name, code, docID);
-//                courseModels.add(instructorCourseModel);
-//            }
-//
-//            StudentAllCourseRecyclerViewAdapter adapter = new StudentAllCourseRecyclerViewAdapter(this, courseModels, StudentAllActivity.this);
-//            recyclerView.setAdapter(adapter);
-//            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        });
+        store.getAllCourses().addOnSuccessListener(query -> {
+            for (DocumentSnapshot snapshot : query) {
+                String docID = Objects.requireNonNull(snapshot.getId());
+                String name = Objects.requireNonNull(snapshot.get("name")).toString();
+                String code = Objects.requireNonNull(snapshot.get("code")).toString();
+
+                Course instructorCourseModel = new Course(name, code, docID);
+                courseModels.add(instructorCourseModel);
+            }
+
+            StudentAllCourseRecyclerViewAdapter adapter = new StudentAllCourseRecyclerViewAdapter(this, courseModels, StudentAllActivity.this);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        });
         
     }
 

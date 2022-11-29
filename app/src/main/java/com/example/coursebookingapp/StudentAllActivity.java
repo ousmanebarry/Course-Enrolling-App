@@ -160,30 +160,59 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
                     return;
                 }
 
-                dialogBuilder = new AlertDialog.Builder(this);
-                final View pickCoursePopupView = getLayoutInflater().inflate(R.layout.student_enroll_course_popup, null);
+                // check for hour conflict
+                store.getUserDocument(auth.getCurrentUser().getUid()).addOnSuccessListener(userSnapshot -> {
 
-                viewCourseName = pickCoursePopupView.findViewById(R.id.courseName);
-                viewCourseCode = pickCoursePopupView.findViewById(R.id.courseCode);
-                studentCancelBtn = pickCoursePopupView.findViewById(R.id.viewCancel);
-                studentPickBtn = pickCoursePopupView.findViewById(R.id.enrollBtn);
+                    ArrayList<String> courseList  = (ArrayList<String>) userSnapshot.get("course");
 
-                viewCourseCode.setText(courseModels.get(position).getCode());
-                viewCourseName.setText(courseModels.get(position).getName());
+                    if (courseList == null) {return;}
+
+                    Course currentCourse = courseModels.get(position);
+
+                    store.getStudentCourses(courseList).addOnSuccessListener(querySnapshots -> {
+                        for (DocumentSnapshot queryDocumentSnapshots : querySnapshots) {
+                            String docID = Objects.requireNonNull(queryDocumentSnapshots.getId());
+                            String name = Objects.requireNonNull(queryDocumentSnapshots.get("name")).toString();
+                            String code = Objects.requireNonNull(queryDocumentSnapshots.get("code")).toString();
+                            String hours = Objects.requireNonNull(queryDocumentSnapshots.get("hours")).toString();
+
+                            Course myCourse = new Course(name, code, docID, hours, "");
+
+                            if (currentCourse.checkIfIntersects(myCourse)) {
+                                Toast.makeText(StudentAllActivity.this,"This course cannot be added because of a time conflict",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+
+                        // here
+                        dialogBuilder = new AlertDialog.Builder(this);
+                        final View pickCoursePopupView = getLayoutInflater().inflate(R.layout.student_enroll_course_popup, null);
+
+                        viewCourseName = pickCoursePopupView.findViewById(R.id.courseName);
+                        viewCourseCode = pickCoursePopupView.findViewById(R.id.courseCode);
+                        studentCancelBtn = pickCoursePopupView.findViewById(R.id.viewCancel);
+                        studentPickBtn = pickCoursePopupView.findViewById(R.id.enrollBtn);
+
+                        viewCourseCode.setText(courseModels.get(position).getCode());
+                        viewCourseName.setText(courseModels.get(position).getName());
 
 
-                dialogBuilder.setView(pickCoursePopupView);
-                dialog = dialogBuilder.create();
-                dialog.show();
+                        dialogBuilder.setView(pickCoursePopupView);
+                        dialog = dialogBuilder.create();
+                        dialog.show();
 
-                studentPickBtn.setOnClickListener(v -> {
-                    addCourse(courseModels.get(position).getDocID());
-                    Toast.makeText(StudentAllActivity.this,"Successfully enrolled in " + courseModels.get(position).getCode(),Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                });
+                        studentPickBtn.setOnClickListener(v -> {
+                            addCourse(courseModels.get(position).getDocID());
+                            Toast.makeText(StudentAllActivity.this,"Successfully enrolled in " + courseModels.get(position).getCode(),Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        });
 
-                studentCancelBtn.setOnClickListener(v -> {
-                    dialog.dismiss();
+                        studentCancelBtn.setOnClickListener(v -> {
+                            dialog.dismiss();
+                        });
+
+                    });
+
                 });
 
             });
@@ -200,8 +229,9 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
                 String docID = Objects.requireNonNull(snapshot.getId());
                 String name = Objects.requireNonNull(snapshot.get("name")).toString();
                 String code = Objects.requireNonNull(snapshot.get("code")).toString();
+                String hours = snapshot.get("hours") == null ? "0" : snapshot.get("hours").toString();
 
-                Course instructorCourseModel = new Course(name, code, docID);
+                Course instructorCourseModel = new Course(name, code, docID, hours, "");
                 courseModels.add(instructorCourseModel);
             }
 

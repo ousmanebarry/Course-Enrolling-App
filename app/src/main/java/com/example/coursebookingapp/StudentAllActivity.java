@@ -66,7 +66,7 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
             public boolean onQueryTextSubmit(String query) {
                 loadCourses(query);
                 Objects.requireNonNull(getSupportActionBar()).setTitle("Custom Courses");
-                return false;
+                return true;
             }
 
             @Override

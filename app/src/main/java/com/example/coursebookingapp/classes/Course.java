@@ -118,16 +118,7 @@ public class Course {
         times = getHoursAsDoubles();
         otherTimes = other.getHoursAsDoubles();
 
-        //check if start or end time is within range
-        if((otherTimes[0] <= times[0] && times[0] <= otherTimes[1]) || (otherTimes[0] <= times[1] && times[1] <= otherTimes[1])){
-            return true;
-        }
-
-        //same of other class
-        if((times[0] <= otherTimes[0] && otherTimes[0] <= times[1]) || (times[0] <= otherTimes[1] && otherTimes[1] <= times[1])){
-            return  true;
-        }
-        return false;
+        return (otherTimes[0] >= times[0] && otherTimes[0] < times[1]) || (otherTimes[1]) <= times[1] && otherTimes[1] > times[0];
     }
 
 }

@@ -10,6 +10,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -76,14 +77,21 @@ public class Store {
 
     }
 
+    public Task<List<DocumentSnapshot>> getStudentCourses(ArrayList<String> course) {
+
+        ArrayList<Task<DocumentSnapshot>> tasks = new ArrayList<>();
+
+        for (String id : course) {
+            tasks.add(getCourseDocument(id));
+        }
+
+        return Tasks.whenAllSuccess(tasks);
+
+    }
+
     public Task<QuerySnapshot> getInstructorCourses(String uuid) {
         CollectionReference col = store.collection(COURSE_PATH);
         return col.whereEqualTo("hasInstructor", true).whereEqualTo("instructorId", uuid).get();
-    }
-
-    public Task<QuerySnapshot> getStudentCourses(String uuid) {
-        CollectionReference col = store.collection(COURSE_PATH);
-        return col.whereEqualTo("hasStudent", true).whereEqualTo("studentId", uuid).get();
     }
 
     public void unassignCourse(String docID, Course course){

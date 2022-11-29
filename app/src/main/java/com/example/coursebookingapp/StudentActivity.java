@@ -21,11 +21,13 @@ import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -158,21 +160,30 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
         RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
         courseModels = new ArrayList<>();
 
-        store.getStudentCourses(auth.getCurrentUser().getUid()).addOnSuccessListener(query -> {
-                    for (DocumentSnapshot snapshot : query) {
-                        String docID = Objects.requireNonNull(snapshot.getId());
-                        String name = Objects.requireNonNull(snapshot.get("name")).toString();
-                        String code = Objects.requireNonNull(snapshot.get("code")).toString();
-                        String capacity = Objects.requireNonNull(snapshot.get("capacity")).toString();
+        store.getUserDocument(auth.getCurrentUser().getUid()).addOnSuccessListener(snapshot -> {
 
-                        Course studentCourseModel = new Course(name, code, docID, capacity);
-                        courseModels.add(studentCourseModel);
-                    }
+            ArrayList<String> course  = (ArrayList<String>) snapshot.get("course");
 
-                    StudentCourseRecyclerViewAdapter adapter = new StudentCourseRecyclerViewAdapter(this, courseModels, StudentActivity.this);
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            assert course != null;
+            store.getStudentCourses(course).addOnSuccessListener(querySnapshots -> {
+                for (DocumentSnapshot queryDocumentSnapshots : querySnapshots) {
+                    String docID = Objects.requireNonNull(queryDocumentSnapshots.getId());
+                    String name = Objects.requireNonNull(queryDocumentSnapshots.get("name")).toString();
+                    String code = Objects.requireNonNull(queryDocumentSnapshots.get("code")).toString();
+
+                    Course instructorCourseModel = new Course(name, code, docID);
+
+                    courseModels.add(instructorCourseModel);
+                }
+
+                StudentCourseRecyclerViewAdapter adapter = new StudentCourseRecyclerViewAdapter(this, courseModels, StudentActivity.this);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            });
+
+
         });
+
     };
 
     private void updateScreen() {

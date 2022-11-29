@@ -78,6 +78,8 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
 
         viewAllBtn.setOnClickListener(view -> {
             loadCourses();
+            searchCourses.setQuery("", false);
+            searchCourses.clearFocus();
             Objects.requireNonNull(getSupportActionBar()).setTitle("All Courses");
         });
 
@@ -148,7 +150,6 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
                     return;
                 }
             }
-
 
             store.getCourseDocument(courseModels.get(position).getDocID()).addOnSuccessListener(snapshot -> {
 

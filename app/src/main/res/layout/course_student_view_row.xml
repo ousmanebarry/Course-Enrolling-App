@@ -19,7 +19,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="173dp"
+            android:layout_height="133dp"
             android:background="@drawable/rounded_black_border"
             android:minHeight="100sp">
 
@@ -37,7 +37,7 @@
                 app:layout_constraintHorizontal_bias="0.107"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.109" />
+                app:layout_constraintVertical_bias="0.139" />
 
             <TextView
                 android:id="@+id/courseCapacity"
@@ -52,7 +52,7 @@
                 app:layout_constraintHorizontal_bias="0.153"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.887" />
+                app:layout_constraintVertical_bias="0.857" />
 
             <TextView
                 android:id="@+id/courseName"
@@ -65,7 +65,7 @@
                 app:layout_constraintHorizontal_bias="0.107"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.305" />
+                app:layout_constraintVertical_bias="0.43" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/deleteCourse"
@@ -80,21 +80,7 @@
                 app:layout_constraintHorizontal_bias="0.95"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.870" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/editCourse"
-                android:layout_width="85dp"
-                android:layout_height="40dp"
-                android:background="@drawable/rounded_corner_blue"
-                android:text="@string/edit"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.951"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.496" />
+                app:layout_constraintVertical_bias="0.810" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/viewCourse"
@@ -108,7 +94,7 @@
                 app:layout_constraintHorizontal_bias="0.951"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.12" />
+                app:layout_constraintVertical_bias="0.18" />
 
             <ImageView
                 android:id="@+id/imageView"
@@ -119,7 +105,7 @@
                 app:layout_constraintHorizontal_bias="0.04"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.875"
+                app:layout_constraintVertical_bias="0.845"
                 app:srcCompat="@drawable/person_48px" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

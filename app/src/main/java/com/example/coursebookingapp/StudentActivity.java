@@ -127,7 +127,7 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
     public void onDeleteClick(int position){
         dialogBuilder = new AlertDialog.Builder(this);
         final View deleteCoursePopupView = getLayoutInflater().inflate(R.layout.instructor_delete_course_popup, null);
-        String id = courseModels.get(position).getDocID();
+        String docID = courseModels.get(position).getDocID();
 
         deleteText = deleteCoursePopupView.findViewById(R.id.deleteText);
         deleteYesBtn = deleteCoursePopupView.findViewById(R.id.yesBtn);
@@ -140,7 +140,7 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
         dialog.show();
 
         deleteYesBtn.setOnClickListener(view -> {
-            deleteCourse(courseModels.get(position).getDocID());
+            deleteCourse(docID);
             dialog.dismiss();
             loadCourses();
         });

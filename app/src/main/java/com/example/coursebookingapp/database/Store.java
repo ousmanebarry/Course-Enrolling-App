@@ -77,6 +77,16 @@ public class Store {
 
     }
 
+    public Task<List<QuerySnapshot>> getCoursesByNameOrCodeOrDay(String nameOrCodeOrDay) {
+
+        Task<QuerySnapshot> taskOne = store.collection(COURSE_PATH).whereEqualTo("name", nameOrCodeOrDay).get();
+        Task<QuerySnapshot> taskTwo = store.collection(COURSE_PATH).whereEqualTo("code", nameOrCodeOrDay).get();
+        Task<QuerySnapshot> taskThree = store.collection(COURSE_PATH).whereEqualTo("days", nameOrCodeOrDay).get();
+
+        return Tasks.whenAllSuccess(taskOne, taskTwo, taskThree);
+
+    }
+
     public Task<List<DocumentSnapshot>> getStudentCourses(ArrayList<String> course) {
 
         ArrayList<Task<DocumentSnapshot>> tasks = new ArrayList<>();

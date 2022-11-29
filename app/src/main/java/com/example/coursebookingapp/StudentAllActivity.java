@@ -215,7 +215,7 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
     private void loadCourses(String courseNameCode) {
         courseModels = new ArrayList<>();
 
-        store.getCoursesByNameOrCode(courseNameCode).addOnSuccessListener(querySnapshots -> {
+        store.getCoursesByNameOrCodeOrDay(courseNameCode).addOnSuccessListener(querySnapshots -> {
             for (QuerySnapshot queryDocumentSnapshots : querySnapshots) {
                 for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
                     String docID = Objects.requireNonNull(snapshot.getId());

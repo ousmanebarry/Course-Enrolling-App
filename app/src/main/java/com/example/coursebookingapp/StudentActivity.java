@@ -164,7 +164,8 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
 
             ArrayList<String> course  = (ArrayList<String>) snapshot.get("course");
 
-            assert course != null;
+            if (course == null) {return;}
+
             store.getStudentCourses(course).addOnSuccessListener(querySnapshots -> {
                 for (DocumentSnapshot queryDocumentSnapshots : querySnapshots) {
                     String docID = Objects.requireNonNull(queryDocumentSnapshots.getId());

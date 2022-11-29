@@ -141,11 +141,14 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
 
         store.getUserDocument(auth.getCurrentUser().getUid()).addOnSuccessListener(s -> {
             ArrayList<?> course  = (ArrayList<?>) s.get("course");
-            assert course != null;
-            if (course.contains(courseModels.get(position).getDocID())) {
-                Toast.makeText(StudentAllActivity.this,"You are already enrolled in this course",Toast.LENGTH_SHORT).show();
-                return;
+
+            if (course != null) {
+                if (course.contains(courseModels.get(position).getDocID())) {
+                    Toast.makeText(StudentAllActivity.this,"You are already enrolled in this course",Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
+
 
             store.getCourseDocument(courseModels.get(position).getDocID()).addOnSuccessListener(snapshot -> {
 

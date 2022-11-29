@@ -152,6 +152,13 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
 
             store.getCourseDocument(courseModels.get(position).getDocID()).addOnSuccessListener(snapshot -> {
 
+                Boolean hasInstructor = snapshot.get("hasInstructor", Boolean.class);
+
+                if (Boolean.FALSE.equals(hasInstructor)) {
+                    Toast.makeText(StudentAllActivity.this,"This course has no instructor",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 dialogBuilder = new AlertDialog.Builder(this);
                 final View pickCoursePopupView = getLayoutInflater().inflate(R.layout.student_enroll_course_popup, null);
 

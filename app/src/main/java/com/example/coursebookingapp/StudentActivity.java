@@ -171,8 +171,9 @@ public class StudentActivity extends AppCompatActivity implements StudentRecycle
                     String docID = Objects.requireNonNull(queryDocumentSnapshots.getId());
                     String name = Objects.requireNonNull(queryDocumentSnapshots.get("name")).toString();
                     String code = Objects.requireNonNull(queryDocumentSnapshots.get("code")).toString();
+                    String capacity = Objects.requireNonNull(queryDocumentSnapshots.get("capacity")).toString();
 
-                    Course instructorCourseModel = new Course(name, code, docID);
+                    Course instructorCourseModel = new Course(name, code, docID, capacity);
 
                     courseModels.add(instructorCourseModel);
                 }

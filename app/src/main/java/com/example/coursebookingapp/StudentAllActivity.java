@@ -24,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class StudentAllActivity extends AppCompatActivity implements StudentAllRecyclerViewInterface{
@@ -138,33 +139,41 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
     @Override
     public void onEnrollClick(int position){
 
+        store.getUserDocument(auth.getCurrentUser().getUid()).addOnSuccessListener(s -> {
+            ArrayList<String> course  = (ArrayList<String>) s.get("course");
+            if (course.contains(courseModels.get(position).getDocID())) {
+                Toast.makeText(StudentAllActivity.this,"You are already enrolled in this course",Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-        store.getCourseDocument(courseModels.get(position).getDocID()).addOnSuccessListener(snapshot -> {
+            store.getCourseDocument(courseModels.get(position).getDocID()).addOnSuccessListener(snapshot -> {
 
-            dialogBuilder = new AlertDialog.Builder(this);
-            final View pickCoursePopupView = getLayoutInflater().inflate(R.layout.student_enroll_course_popup, null);
+                dialogBuilder = new AlertDialog.Builder(this);
+                final View pickCoursePopupView = getLayoutInflater().inflate(R.layout.student_enroll_course_popup, null);
 
-            viewCourseName = pickCoursePopupView.findViewById(R.id.courseName);
-            viewCourseCode = pickCoursePopupView.findViewById(R.id.courseCode);
-            viewInstructorName = pickCoursePopupView.findViewById(R.id.courseInstructor);
-            viewCourseDays = pickCoursePopupView.findViewById(R.id.courseDays);
-            viewCourseHours = pickCoursePopupView.findViewById(R.id.courseHours);
-            viewCourseCapacity = pickCoursePopupView.findViewById(R.id.courseCapacity);
-            viewCourseDesc = pickCoursePopupView.findViewById(R.id.courseDesc);
-            studentCancelBtn = pickCoursePopupView.findViewById(R.id.viewCancel);
-            studentPickBtn = pickCoursePopupView.findViewById(R.id.enrollBtn);
+                viewCourseName = pickCoursePopupView.findViewById(R.id.courseName);
+                viewCourseCode = pickCoursePopupView.findViewById(R.id.courseCode);
+                studentCancelBtn = pickCoursePopupView.findViewById(R.id.viewCancel);
+                studentPickBtn = pickCoursePopupView.findViewById(R.id.enrollBtn);
 
-            dialogBuilder.setView(pickCoursePopupView);
-            dialog = dialogBuilder.create();
-            dialog.show();
+                viewCourseCode.setText(courseModels.get(position).getCode());
+                viewCourseName.setText(courseModels.get(position).getName());
 
-            studentPickBtn.setOnClickListener(v -> {
-                addCourse(courseModels.get(position).getDocID());
-                dialog.dismiss();
-            });
 
-            studentCancelBtn.setOnClickListener(v -> {
-                dialog.dismiss();
+                dialogBuilder.setView(pickCoursePopupView);
+                dialog = dialogBuilder.create();
+                dialog.show();
+
+                studentPickBtn.setOnClickListener(v -> {
+                    addCourse(courseModels.get(position).getDocID());
+                    Toast.makeText(StudentAllActivity.this,"Successfully enrolled in " + courseModels.get(position).getCode(),Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                });
+
+                studentCancelBtn.setOnClickListener(v -> {
+                    dialog.dismiss();
+                });
+
             });
 
         });

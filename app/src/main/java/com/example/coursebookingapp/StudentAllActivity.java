@@ -179,7 +179,8 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
 
                     ArrayList<String> courseList  = (ArrayList<String>) userSnapshot.get("course");
 
-                    if (courseList.size() == 0) {
+
+                    if (courseList.size() == 0 ) {
                         addCourse(courseModels.get(position).getDocID());
                         Toast.makeText(StudentAllActivity.this,"Successfully enrolled in " + courseModels.get(position).getCode(),Toast.LENGTH_SHORT).show();
                         dialog.dismiss();

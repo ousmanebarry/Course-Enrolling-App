@@ -38,8 +38,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     TextView loginBtn;
     RadioButton isInstructor, isStudent;
 
-    List<String> course;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,13 +97,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             User newUserInfo;
             name = nameField.getText().toString();
             FirebaseUser user = auth.getCurrentUser();
-            List<String> course = new ArrayList<>();
+            ArrayList<String> courses = new ArrayList<>();
 
             if (isInstructor.isChecked()) {
                 newUserInfo = new Instructor(email, name);
             } else {
-                newUserInfo = new Student(email, name, course);
-
+                newUserInfo = new Student(email, name, courses);
             }
 
             store.addUser(newUserInfo, user.getUid());

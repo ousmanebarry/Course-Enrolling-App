@@ -21,11 +21,12 @@ public class Course {
         this.hasInstructor = false;
     }
 
-    public Course(String name, String courseCode, String docID, String hours, String capacity){
+    public Course(String name, String courseCode, String docID, String hours, String days){
         this.setName(name);
         this.setCode(courseCode);
         this.setDocID(docID);
         this.setHours(hours);
+        this.setDay(days);
         this.hasInstructor = false;
     }
 

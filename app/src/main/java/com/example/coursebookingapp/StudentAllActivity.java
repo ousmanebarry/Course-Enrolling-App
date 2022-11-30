@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.example.coursebookingapp.classes.Course;
 import com.example.coursebookingapp.database.Auth;
 import com.example.coursebookingapp.database.Store;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -24,8 +23,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class StudentAllActivity extends AppCompatActivity implements StudentAllRecyclerViewInterface{
 
@@ -188,21 +187,26 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
                     }
 
                     Course currentCourse = courseModels.get(position);
+                    Bool hasConflict = new Bool(false);
 
                     store.getStudentCourses(courseList).addOnSuccessListener(querySnapshots -> {
-                        for (DocumentSnapshot queryDocumentSnapshots : querySnapshots) {
-                            String docID = Objects.requireNonNull(queryDocumentSnapshots.getId());
-                            String name = Objects.requireNonNull(queryDocumentSnapshots.get("name")).toString();
-                            String code = Objects.requireNonNull(queryDocumentSnapshots.get("code")).toString();
-                            String hours = Objects.requireNonNull(queryDocumentSnapshots.get("hours")).toString();
+                        for (DocumentSnapshot q : querySnapshots) {
+                            String docID = Objects.requireNonNull(q.getId());
+                            String name = Objects.requireNonNull(q.get("name")).toString();
+                            String code = Objects.requireNonNull(q.get("code")).toString();
+                            String hours = q.get("hours") == null ? "0" : q.get("hours").toString();
+                            String days = q.get("days") == null ? "" : q.get("days").toString();
 
-                            Course myCourse = new Course(name, code, docID, hours, "");
+                            Course myCourse = new Course(name, code, docID, hours, days);
 
-                            if (currentCourse.checkIfIntersects(myCourse)) {
+                            if (currentCourse.checkIfIntersects(myCourse) && Objects.equals(myCourse.getDay(), currentCourse.getDay())) {
                                 Toast.makeText(StudentAllActivity.this,"This course cannot be added because of a time conflict",Toast.LENGTH_SHORT).show();
+                                hasConflict.setValue(true);
                                 return;
                             }
+                        }
 
+                        if (!hasConflict.getValue()) {
                             addCourse(courseModels.get(position).getDocID());
                             Toast.makeText(StudentAllActivity.this,"Successfully enrolled in " + courseModels.get(position).getCode(),Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
@@ -230,8 +234,9 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
                 String name = Objects.requireNonNull(snapshot.get("name")).toString();
                 String code = Objects.requireNonNull(snapshot.get("code")).toString();
                 String hours = snapshot.get("hours") == null ? "0" : snapshot.get("hours").toString();
+                String days = snapshot.get("days") == null ? "" : snapshot.get("days").toString();
 
-                Course instructorCourseModel = new Course(name, code, docID, hours, "");
+                Course instructorCourseModel = new Course(name, code, docID, hours, days);
                 courseModels.add(instructorCourseModel);
             }
 
@@ -268,5 +273,20 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
     private void addCourse(String position){
         String uuid = auth.getCurrentUser().getUid();
         userRef.document(uuid).update("course", FieldValue.arrayUnion(position));
+    }
+
+    public class Bool {
+        private boolean value;
+        public Bool(boolean value) {
+            this.value = value;
+        }
+
+        public boolean getValue() {
+            return value;
+        }
+
+        public void setValue(boolean value) {
+            this.value = value;
+        }
     }
 }

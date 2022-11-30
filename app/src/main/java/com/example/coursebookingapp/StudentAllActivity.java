@@ -180,7 +180,12 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
 
                     ArrayList<String> courseList  = (ArrayList<String>) userSnapshot.get("course");
 
-                    if (courseList == null) {return;}
+                    if (courseList.size() == 0) {
+                        addCourse(courseModels.get(position).getDocID());
+                        Toast.makeText(StudentAllActivity.this,"Successfully enrolled in " + courseModels.get(position).getCode(),Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        return;
+                    }
 
                     Course currentCourse = courseModels.get(position);
 
@@ -198,15 +203,11 @@ public class StudentAllActivity extends AppCompatActivity implements StudentAllR
                                 return;
                             }
 
-                            System.out.println(currentCourse.getHoursAsDoubles()[0]);
-                            System.out.println(currentCourse.getHoursAsDoubles()[1]);
-                            System.out.println(myCourse.getHoursAsDoubles()[0]);
-                            System.out.println(myCourse.getHoursAsDoubles()[1]);
-
                             addCourse(courseModels.get(position).getDocID());
                             Toast.makeText(StudentAllActivity.this,"Successfully enrolled in " + courseModels.get(position).getCode(),Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         }
+
                     });
 
                 }));

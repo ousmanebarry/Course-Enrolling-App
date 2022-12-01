@@ -75,6 +75,8 @@ public class InstructorAllActivity extends AppCompatActivity implements Instruct
 
         viewAllBtn.setOnClickListener(view -> {
             loadCourses();
+            searchCourses.setQuery("", false);
+            searchCourses.clearFocus();
             Objects.requireNonNull(getSupportActionBar()).setTitle("All Courses");
         });
 

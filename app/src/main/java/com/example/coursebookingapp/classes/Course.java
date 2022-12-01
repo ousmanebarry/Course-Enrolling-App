@@ -119,7 +119,7 @@ public class Course {
         times = getHoursAsDoubles();
         otherTimes = other.getHoursAsDoubles();
 
-        return (otherTimes[0] >= times[0] && otherTimes[0] < times[1]) || (otherTimes[1]) <= times[1] && otherTimes[1] > times[0];
+        return (otherTimes[0] >= times[0] && otherTimes[0] < times[1]) || (otherTimes[1] <= times[1] && otherTimes[1] > times[0]) || (times[0] >= otherTimes[0] && times[0] < otherTimes[1]) || (times[1] <= otherTimes[1] && times[1] > otherTimes[0]);
     }
 
 }

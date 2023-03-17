@@ -1,4 +1,4 @@
-# course-booking-app
+# course-enrolling-app
 
 ## Introduction
 
